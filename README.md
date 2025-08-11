@@ -1,6 +1,6 @@
 # Portfolio Gruppenprojekt – WebDevKurs
 
-Dieses Repository dient als Grundlage für unser Portfolio-Projekt im Webentwicklungs-Kurs. Wir erstellen gemeinsam eine React-Anwendung, die später über GitHub Pages veröffentlicht wird. Es ist möglich sowohl Javascript als auch Typescript zu verwenden.
+Dieses Repository dient als Grundlage für unser Portfolio-Projekt im Webentwicklungs-Kurs. Wir erstellen gemeinsam eine React-Anwendung, das über GitHub Pages veröffentlicht ist. Es ist möglich sowohl Javascript als auch Typescript zu verwenden.
 
 ## Branch-Konzept
 
@@ -415,23 +415,47 @@ WebDevKurs/
 ├── src/
 │   ├── components/
 │   │   ├── Layout.jsx        # Hauptlayout mit Navigation
-│   │   ├── Navigation.tsx    # Dynamische Navigation
-│   │   └── student-carousel.tsx  # Studenten-Karussell
+│   │   ├── Navigation.tsx    # Responsive Navigation mit Sidebar
+│   │   └── student-carousel.tsx  # Studenten-Karussell mit GitHub Icons
 │   ├── pages/
-│   │   ├── Home.jsx         # Startseite
-│   │   └── __tests__/       # Test-Dateien
+│   │   ├── Home.tsx         # Startseite mit Custom GitHub Icons
+│   │   ├── Sven.tsx         # Beispiel Studenten-Seite
+│   │   ├── Pawel.tsx        # Beispiel Studenten-Seite
+│   │   └── __tests__/       # Test-Dateien (Vitest + React Testing Library)
 │   ├── routes.tsx           # Zentrale Routing-Konfiguration
-│   ├── main.jsx            # App Entry Point mit Router
+│   ├── main.jsx            # App Entry Point mit Router + basename
 │   ├── App.jsx             # Haupt-App-Komponente
 │   ├── index.css           # Tailwind CSS Imports
-│   └── setupTests.ts       # Vitest Setup
-├── public/                 # Statische Assets
+│   └── setupTests.ts       # Vitest Setup mit jest-dom
+├── public/                 # Statische Assets (Logos, etc.)
 ├── dist/                   # Build Output (automatisch erstellt)
-├── package.json
-├── vite.config.js         # Vite + GitHub Pages Konfiguration
-├── tsconfig.json          # TypeScript Konfiguration
-└── README.md
+├── package.json            # Dependencies und Scripts
+├── vite.config.js         # Vite + GitHub Pages + Test Konfiguration
+├── tsconfig.json          # TypeScript Konfiguration (modern bundler)
+├── ONBOARDING.md          # Schritt-für-Schritt Anleitung für neue Studenten
+└── README.md              # Hauptdokumentation
 ```
+
+## Navigation Features
+
+### Desktop Navigation:
+
+- **Responsive Sidebar** - Linke Sidebar für Studenten-Navigation
+- **Toggle Button** - "Studenten (X)" öffnet/schließt Sidebar
+- **Auto-Layout** - Content verschiebt sich automatisch
+- **Click-Outside** - Subtiles Overlay (10% opacity) schließt Sidebar
+
+### Mobile Navigation:
+
+- **Hamburger Menu** - Standard mobile Pattern
+- **Right Sidebar** - Touch-optimierte Studenten-Liste
+- **Overlay** - Vollständiges Overlay (50% opacity) für mobile Focus
+
+### Icons:
+
+- **Custom GitHub Icons** - Eigene SVG-Komponente (Lucide deprecated)
+- **Lucide Icons** - Für alle anderen Icons (ChevronLeft, Users, etc.)
+- **Responsive Sizing** - Verschiedene Größen je nach Kontext
 
 ## Entwicklungsprozess
 
@@ -447,6 +471,9 @@ npm install
 
 # Entwicklungsserver starten
 npm run dev
+
+# WICHTIG: Projekt läuft auf http://localhost:5173/WebDevKurs
+# (nicht auf localhost:5173/ wegen basename Konfiguration)
 ```
 
 ### 2. Feature entwickeln
@@ -549,6 +576,26 @@ import Home from "../Home.jsx"; // Funktioniert ohne @ts-ignore
 1. Lokalen Build testen: `npm run build`
 2. GitHub Actions Logs überprüfen
 3. Dependencies aktualisieren: `npm ci`
+
+### Deprecated Icon Warnings
+
+**Problem:** Lucide Brand Icons sind deprecated (z.B. GitHub Icon).
+
+**Lösung:** Verwende Custom SVG Components:
+
+```tsx
+// Eigene GitHub Icon Komponente
+const GitHubIcon = ({ className }: { className?: string }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438..." />
+  </svg>
+);
+
+// Verwendung:
+<GitHubIcon className="w-5 h-5" />;
+```
+
+**Alternative:** Nutze [Simple Icons](https://simpleicons.org/) für Brand Icons.
 
 ## Weiterführende Ressourcen
 

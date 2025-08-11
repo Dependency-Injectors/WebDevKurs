@@ -151,11 +151,18 @@ npm --version      # Sollte eine Versionsnummer zeigen
 1. **Speichere alle Dateien**
 
 2. **Überprüfe den Browser:**
-   - Die Navigation sollte jetzt deinen Namen enthalten
-   - Klicke auf deinen Namen in der Navigation
-   - Deine Seite sollte angezeigt werden
+   - **Desktop**: Klicke auf "Studenten (X)" um die Sidebar zu öffnen
+   - **Mobile**: Nutze das Hamburger-Menü (☰) für die Navigation
+   - Dein Name sollte in der Studenten-Liste erscheinen
+   - Klicke auf deinen Namen - deine Seite sollte angezeigt werden
 
 ## 🎨 Schritt 4: Deine Seite gestalten
+
+### Navigation Features
+
+- **Responsive Design**: Automatische Anpassung zwischen Desktop und Mobile
+- **Desktop Sidebar**: Linke Sidebar mit allen Studenten (schließt automatisch bei Klick)
+- **Mobile Sidebar**: Rechte Sidebar für Touch-optimierte Navigation
 
 ### Tailwind CSS verwenden
 
@@ -455,10 +462,25 @@ npm install lucide-react
 ```
 
 ```jsx
-import { Mail, Github, Linkedin } from "lucide-react";
+import { Mail, User, Heart } from "lucide-react";
 
 // Verwendung:
 <Mail className="w-6 h-6" />;
+```
+
+**⚠️ GitHub Icon Hinweis:**  
+Das GitHub Icon von Lucide ist deprecated. Verwende stattdessen:
+
+```jsx
+// Custom GitHub Icon (bereits im Projekt verfügbar)
+const GitHubIcon = ({ className }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8..." />
+  </svg>
+);
+
+// Verwendung:
+<GitHubIcon className="w-6 h-6" />;
 ```
 
 **Animationen:**
@@ -492,6 +514,9 @@ git status
 
 # Lokalen Server neustarten
 npm run dev
+
+# ⚠️ WICHTIG: Projekt läuft auf http://localhost:5173/WebDevKurs
+# (nicht auf localhost:5173/ wegen basename Konfiguration!)
 
 # Tests ausführen
 npm test

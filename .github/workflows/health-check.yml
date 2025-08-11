@@ -1,0 +1,178 @@
+name: Daily Health Check
+
+on:
+  schedule:
+    # Läuft täglich um 07:00 UTC (09:00 MESZ / 08:00 MEZ)
+    - cron: "0 7 * * *"
+  workflow_dispatch: # Ermöglicht manuellen Trigger
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Check GitHub Pages deployment
+        run: |
+          echo "🔍 Checking GitHub Pages health..."
+
+          # Website Response Check
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://dependency-injectors.github.io/WebDevKurs/)
+
+          if [ "$RESPONSE" -eq 200 ]; then
+            echo "✅ Website is responding (HTTP $RESPONSE)"
+          else
+            echo "❌ Website health check failed (HTTP $RESPONSE)"
+            exit 1
+          fi
+
+      - name: Check website content
+        run: |
+          echo "🔍 Checking website content..."
+
+          # Check if main content is present
+          CONTENT=$(curl -s https://dependency-injectors.github.io/WebDevKurs/)
+
+          if echo "$CONTENT" | grep -q "Gemeinsam lernen"; then
+            echo "✅ Main content found"
+          else
+            echo "❌ Main content missing"
+            exit 1
+          fi
+
+          if echo "$CONTENT" | grep -q "GitHub Kollaborationsprojekt"; then
+            echo "✅ Project description found"
+          else
+            echo "❌ Project description missing"
+            exit 1
+          fi
+
+      - name: Check critical routes
+        run: |
+          echo "🔍 Checking critical routes..."
+
+          # Check if JavaScript bundle loads
+          BUNDLE_CHECK=$(curl -s https://dependency-injectors.github.io/WebDevKurs/ | grep -o 'src="[^"]*\.js"' | head -1)
+
+          if [ -n "$BUNDLE_CHECK" ]; then
+            echo "✅ JavaScript bundle reference found"
+          else
+            echo "❌ JavaScript bundle missing"
+            exit 1
+          fi
+
+      - name: Run basic tests
+        run: |
+          echo "🧪 Running basic tests..."
+          npm test -- --run
+
+      - name: Check build artifacts
+        run: |
+          echo "🔍 Checking build artifacts..."
+
+          if [ -d "dist" ]; then
+            echo "✅ Build directory exists"
+          else
+            echo "❌ Build directory missing"
+            exit 1
+          fi
+
+          if [ -f "dist/index.html" ]; then
+            echo "✅ index.html exists"
+          else
+            echo "❌ index.html missing"
+            exit 1
+          fi
+
+          # Check if assets exist
+          ASSETS_COUNT=$(find dist -name "*.js" -o -name "*.css" | wc -l)
+          if [ "$ASSETS_COUNT" -gt 0 ]; then
+            echo "✅ Build assets found ($ASSETS_COUNT files)"
+          else
+            echo "❌ No build assets found"
+            exit 1
+          fi
+
+      - name: Performance check
+        run: |
+          echo "⚡ Basic performance check..."
+
+          START_TIME=$(date +%s%3N)
+          curl -s https://dependency-injectors.github.io/WebDevKurs/ > /dev/null
+          END_TIME=$(date +%s%3N)
+
+          RESPONSE_TIME=$((END_TIME - START_TIME))
+          echo "📊 Response time: ${RESPONSE_TIME}ms"
+
+          if [ "$RESPONSE_TIME" -lt 5000 ]; then
+            echo "✅ Good response time"
+          elif [ "$RESPONSE_TIME" -lt 10000 ]; then
+            echo "⚠️ Acceptable response time"
+          else
+            echo "❌ Slow response time"
+            exit 1
+          fi
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "🎉 Health Check Summary:"
+          echo "✅ Website is accessible"
+          echo "✅ Content is loading correctly"
+          echo "✅ Build process working"
+          echo "✅ Tests passing"
+          echo "✅ Performance acceptable"
+          echo ""
+          echo "🌐 Site: https://dependency-injectors.github.io/WebDevKurs/"
+          echo "⏰ Checked at: $(date)"
+
+      - name: Create Issue on Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `🚨 Health Check Failed - ${new Date().toISOString().split('T')[0]}`;
+            const body = `## Health Check Failure Report
+
+            **Date:** ${new Date().toISOString()}
+            **Workflow:** ${context.workflow}
+            **Run ID:** ${context.runId}
+
+            ### ❌ Health check failed
+
+            The daily health check for our GitHub Pages deployment has failed.
+
+            **Please check:**
+            - [ ] GitHub Pages deployment status
+            - [ ] Website accessibility
+            - [ ] Build process
+            - [ ] Content rendering
+
+            **Links:**
+            - [Failed Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - [Live Site](https://dependency-injectors.github.io/WebDevKurs/)
+
+            ---
+            *This issue was automatically created by the Health Check workflow.*`;
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['health-check', 'bug', 'automated']
+            });

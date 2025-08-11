@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router";
 import { ChevronLeft, ChevronRight, Menu, X, Users, Home } from "lucide-react";
-import { routes } from "../routes";
+import { routes, RouteConfig } from "../routes";
 
 const getActiveClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? "text-blue-500 font-bold" : "text-gray-700 hover:text-blue-400";
@@ -10,8 +10,12 @@ const Navigation = () => {
   const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
+  // Filtere Routen nach Typ
   const homeRoute = routes.find((route) => route.path === "/");
-  const studentRoutes = routes.filter((route) => route.path !== "/");
+  const regularRoutes = routes.filter(
+    (route) => route.path !== "/" && !route.isStudent
+  );
+  const studentRoutes = routes.filter((route) => route.isStudent === true);
 
   // Schließe Mobile Sidebar bei Resize auf Desktop
   useEffect(() => {
@@ -105,8 +109,8 @@ const Navigation = () => {
             Studenten ({studentRoutes.length})
           </button>
         </div>
-
         <nav className="hidden md:flex gap-4 text-lg">
+          {/* Home Link */}
           {homeRoute && (
             <NavLink
               key={homeRoute.path}
@@ -119,15 +123,20 @@ const Navigation = () => {
               </div>
             </NavLink>
           )}
-        </nav>
 
+          {/* Reguläre Routen (keine Studenten) */}
+          {regularRoutes.map(({ path, label }) => (
+            <NavLink key={path} to={path} className={getActiveClass}>
+              {label}
+            </NavLink>
+          ))}
+        </nav>{" "}
         <button
           onClick={() => setIsMobileSidebarOpen(true)}
           className="md:hidden p-2 text-gray-700 hover:text-blue-400 transition-colors"
         >
           <Menu className="w-6 h-6" />
         </button>
-
         <div className="hidden md:block"></div>
       </div>
 
@@ -152,6 +161,7 @@ const Navigation = () => {
             </div>
 
             <div className="p-4 space-y-4">
+              {/* Home Link */}
               {homeRoute && (
                 <NavLink
                   to={homeRoute.path}
@@ -165,6 +175,19 @@ const Navigation = () => {
                 </NavLink>
               )}
 
+              {/* Reguläre Routen */}
+              {regularRoutes.map(({ path, label }) => (
+                <NavLink
+                  key={path}
+                  to={path}
+                  className="block py-2 text-lg text-gray-700 hover:text-blue-500 transition-colors"
+                  onClick={() => setIsMobileSidebarOpen(false)}
+                >
+                  {label}
+                </NavLink>
+              ))}
+
+              {/* Studenten Section */}
               <div>
                 <div className="flex items-center gap-2 py-2 mb-2 text-gray-800 font-medium border-b">
                   <Users className="w-5 h-5" />
