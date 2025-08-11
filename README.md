@@ -137,17 +137,73 @@ npm install --save-dev vitest @testing-library/react @testing-library/jest-dom
 ```tsx
 // src/pages/__tests__/About.test.tsx
 import { render, screen } from "@testing-library/react";
-import About from "../About";
+import { describe, it, expect } from "vitest";
+import About from "../About.js";
 
-test("zeigt Überschrift an", () => {
-  render(<About />);
-  expect(screen.getByText("Über uns")).toBeInTheDocument();
+describe("About Page", () => {
+  it("zeigt Überschrift an", () => {
+    render(<About />);
+    expect(screen.getByText("Über uns")).toBeInTheDocument();
+  });
 });
 ```
 
+**Für JSX-Dateien in TypeScript-Tests:**
+der Kommentar vor der Imortanweisung (// @ts-ignore) ist zwingen erforderlich bei jsx.Dateien!
+```tsx
+// src/pages/__tests__/Home.test.tsx
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+// @ts-ignore
+import Home from "../Home.jsx";
+
+describe("Home Page", () => {
+  it("zeigt Startseite an", () => {
+    render(<Home />);
+    expect(screen.getByText("Willkommen")).toBeInTheDocument();
+  });
+});
+```
+
+### Anleitung: Tests erstellen
+
+1. **Test-Datei anlegen:**  
+   Erstelle im Ordner `src/pages/__tests__/` eine neue Datei, z.B. `MeinePage.test.tsx`
+
+2. **Grundstruktur:**
+
+   ```tsx
+   import { render, screen } from "@testing-library/react";
+   import { describe, it, expect } from "vitest";
+   import MeinePage from "../MeinePage.js"; // oder .jsx
+
+   describe("MeinePage", () => {
+     it("sollte Text anzeigen", () => {
+       render(<MeinePage />);
+       expect(screen.getByText("Erwarteter Text")).toBeInTheDocument();
+     });
+   });
+   ```
+
+3. **Imports anpassen:**
+
+   - Für `.js`/`.jsx` Dateien: Endung mit angeben
+   - Für `.jsx` in TypeScript-Tests: `// @ts-ignore` vor dem Import
+
+4. **Tests ausführen:**
+
+   ```bash
+   npx vitest
+   ```
+
+5. **Mit GUI:**
+   ```bash
+   npx vitest --ui
+   ```
+
 ### Konfiguration
 
-Füge in deiner `vite.config.ts` folgendes hinzu:
+In der `vite.config.ts` wurde test hinzugeffügt und ein setupFile im src Ordner estellt:
 
 ```ts
 import { defineConfig } from "vite";
@@ -157,9 +213,19 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
+    setupFiles: "./src/setupTests.ts",
   },
 });
 ```
+
+Erstelle die Datei `src/setupTests.ts` mit folgendem Inhalt:
+
+```ts
+import { expect } from "vitest";
+import "@testing-library/jest-dom/vitest";
+```
+
+Damit werden die jest-dom Matcher wie `toBeInTheDocument()` für alle Tests automatisch verfügbar gemacht.
 
 ### Tests ausführen und GUI nutzen
 
@@ -172,5 +238,4 @@ Damit öffnet sich eine Test-GUI im Browser.
 ---
 
 **Hinweis:**  
-Alle neuen Seiten bitte als `.tsx` anlegen und Tests im Ordner `__tests__` erstellen.
-Jest und zugehörige Pakete können aus dem Projekt
+Alle neuen Seiten bitte als `.tsx` anlegen, wenn möglich und Tests im Ordner `__tests__` erstellen.
