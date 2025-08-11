@@ -415,19 +415,23 @@ Das Projekt verfügt über ein automatisches Health Check System, das die Verfü
 
 **Was wird überwacht:**
 
-1. **Website Accessibility** 
+1. **Website Accessibility**
+
    - HTTP 200 Response Check
    - Server-Erreichbarkeit der Live-Site
 
 2. **Content Validation**
+
    - HTML-Struktur (`<title>`, React root element)
    - Asset-Referenzen (JS/CSS Bundles, Favicon)
 
 3. **Build Process**
+
    - Lokaler Build-Test mit aktuellen Dependencies
    - Build-Artefakte Validierung (`dist/` Ordner)
 
 4. **Testing**
+
    - Vitest Test-Suite Ausführung
    - Code-Qualität Validation
 
@@ -441,13 +445,14 @@ Das Projekt verfügt über ein automatisches Health Check System, das die Verfü
 
 ```yaml
 schedule:
-  - cron: "0 7 * * *"  # 07:00 UTC = 09:00 MESZ
+  - cron: "0 7 * * *" # 07:00 UTC = 09:00 MESZ
 ```
 
 **Cron-Format Erklärung:**
+
 ```
 ┌───────────── Minute (0-59)
-│ ┌─────────── Stunde (0-23)  
+│ ┌─────────── Stunde (0-23)
 │ │ ┌───────── Tag des Monats (1-31)
 │ │ │ ┌─────── Monat (1-12)
 │ │ │ │ ┌───── Wochentag (0-6, 0 = Sonntag)
@@ -456,6 +461,7 @@ schedule:
 ```
 
 **Beispiele:**
+
 - `0 7 * * *` - Täglich um 07:00 UTC
 - `0 */6 * * *` - Alle 6 Stunden
 - `0 9 * * 1` - Montags um 09:00 UTC
@@ -465,24 +471,28 @@ schedule:
 Bei Health Check Fehlern wird automatisch ein GitHub Issue erstellt:
 
 **Features:**
+
 - 🚨 **Auto-Labels:** `health-check`, `bug`, `automated`
 - 📊 **Detailed Report:** Datum, Workflow-Run, Failed Step
 - 🔗 **Direct Links:** Failed Action Run, Live Site
 - ✅ **Checklist:** Systematische Debugging-Schritte
 
 **Beispiel Issue:**
+
 ```markdown
 🚨 Health Check Failed - 2025-08-11
 
 ### ❌ Health check failed
 
 **Please check:**
-- [ ] GitHub Pages deployment status  
+
+- [ ] GitHub Pages deployment status
 - [ ] Website accessibility
 - [ ] Build process
 - [ ] Content rendering
 
 **Links:**
+
 - [Failed Workflow Run](...)
 - [Live Site](https://dependency-injectors.github.io/WebDevKurs/)
 ```
@@ -490,12 +500,14 @@ Bei Health Check Fehlern wird automatisch ein GitHub Issue erstellt:
 ### GitHub Actions Free Tier
 
 **Limits im kostenlosen GitHub Tier:**
+
 - **Private Repos:** 2.000 Minuten/Monat
 - **Public Repos:** Unlimited Minuten
 - **Concurrent Jobs:** 20 Jobs gleichzeitig
 - **Storage:** 500MB für Artifacts
 
 **Unser Health Check:**
+
 - **Laufzeit:** ~2-3 Minuten täglich
 - **Frequency:** 1x täglich (optimal für free tier)
 - **Monthly Usage:** ~90 Minuten (sehr gering)
@@ -508,6 +520,7 @@ Repository → Actions Tab → "Daily Health Check" Workflow
 Du kannst den Health Check auch manuell triggern:
 
 1. **GitHub Web Interface:**
+
    - Repository → Actions → "Daily Health Check"
    - "Run workflow" Button → "Run workflow"
 
@@ -529,37 +542,40 @@ Du kannst den Health Check auch manuell triggern:
   }
 }
 
+```
 ## Projektstruktur
 
-```
+````
+
 WebDevKurs/
 ├── .github/
-│   └── workflows/
-│       ├── test.yml          # CI Tests
-│       └── deploy.yml        # GitHub Pages Deployment
+│ └── workflows/
+│ ├── test.yml # CI Tests
+│ └── deploy.yml # GitHub Pages Deployment
 ├── src/
-│   ├── components/
-│   │   ├── Layout.jsx        # Hauptlayout mit Navigation
-│   │   ├── Navigation.tsx    # Responsive Navigation mit Sidebar
-│   │   └── student-carousel.tsx  # Studenten-Karussell mit GitHub Icons
-│   ├── pages/
-│   │   ├── Home.tsx         # Startseite mit Custom GitHub Icons
-│   │   ├── Sven.tsx         # Beispiel Studenten-Seite
-│   │   ├── Pawel.tsx        # Beispiel Studenten-Seite
-│   │   └── __tests__/       # Test-Dateien (Vitest + React Testing Library)
-│   ├── routes.tsx           # Zentrale Routing-Konfiguration
-│   ├── main.jsx            # App Entry Point mit Router + basename
-│   ├── App.jsx             # Haupt-App-Komponente
-│   ├── index.css           # Tailwind CSS Imports
-│   └── setupTests.ts       # Vitest Setup mit jest-dom
-├── public/                 # Statische Assets (Logos, etc.)
-├── dist/                   # Build Output (automatisch erstellt)
-├── package.json            # Dependencies und Scripts
-├── vite.config.js         # Vite + GitHub Pages + Test Konfiguration
-├── tsconfig.json          # TypeScript Konfiguration (modern bundler)
-├── ONBOARDING.md          # Schritt-für-Schritt Anleitung für neue Studenten
-└── README.md              # Hauptdokumentation
-```
+│ ├── components/
+│ │ ├── Layout.jsx # Hauptlayout mit Navigation
+│ │ ├── Navigation.tsx # Responsive Navigation mit Sidebar
+│ │ └── student-carousel.tsx # Studenten-Karussell mit GitHub Icons
+│ ├── pages/
+│ │ ├── Home.tsx # Startseite mit Custom GitHub Icons
+│ │ ├── Sven.tsx # Beispiel Studenten-Seite
+│ │ ├── Pawel.tsx # Beispiel Studenten-Seite
+│ │ └── **tests**/ # Test-Dateien (Vitest + React Testing Library)
+│ ├── routes.tsx # Zentrale Routing-Konfiguration
+│ ├── main.jsx # App Entry Point mit Router + basename
+│ ├── App.jsx # Haupt-App-Komponente
+│ ├── index.css # Tailwind CSS Imports
+│ └── setupTests.ts # Vitest Setup mit jest-dom
+├── public/ # Statische Assets (Logos, etc.)
+├── dist/ # Build Output (automatisch erstellt)
+├── package.json # Dependencies und Scripts
+├── vite.config.js # Vite + GitHub Pages + Test Konfiguration
+├── tsconfig.json # TypeScript Konfiguration (modern bundler)
+├── ONBOARDING.md # Schritt-für-Schritt Anleitung für neue Studenten
+└── README.md # Hauptdokumentation
+
+````
 
 ## Navigation Features
 
@@ -599,7 +615,7 @@ npm run dev
 
 # WICHTIG: Projekt läuft auf http://localhost:5173/WebDevKurs
 # (nicht auf localhost:5173/ wegen basename Konfiguration)
-```
+````
 
 ### 2. Feature entwickeln
 

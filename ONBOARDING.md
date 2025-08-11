@@ -547,11 +547,13 @@ Ein **Health Check** ist ein automatisierter Test, der regelmäßig überprüft,
 Ein Cronjob ist ein zeitgesteuerter Auftrag, der automatisch zu bestimmten Zeiten ausgeführt wird.
 
 **Unser Health Check läuft:**
+
 - 🕘 **Täglich um 09:00 MESZ** (07:00 UTC)
 - 🔄 **Automatisch über GitHub Actions**
 - 📊 **Mit detailliertem Monitoring-Report**
 
 **Cron-Syntax Beispiele:**
+
 ```bash
 0 7 * * *     # Täglich um 07:00 UTC (09:00 MESZ)
 0 */6 * * *   # Alle 6 Stunden
@@ -568,19 +570,23 @@ Ein Cronjob ist ein zeitgesteuerter Auftrag, der automatisch zu bestimmten Zeite
 4. ✅ **Debugging-Checkliste**
 
 **Beispiel Auto-Issue:**
+
 ```markdown
 🚨 Health Check Failed - 2025-08-11
 
 ### ❌ Health check failed
+
 The daily health check for our GitHub Pages deployment has failed.
 
 **Please check:**
+
 - [ ] GitHub Pages deployment status
-- [ ] Website accessibility  
+- [ ] Website accessibility
 - [ ] Build process
 - [ ] Content rendering
 
 **Links:**
+
 - [Failed Workflow Run](...)
 - [Live Site](https://dependency-injectors.github.io/WebDevKurs/)
 ```
@@ -590,6 +596,7 @@ The daily health check for our GitHub Pages deployment has failed.
 **Wo siehst du den Status?**
 
 1. **GitHub Repository:**
+
    - Gehe zu "Actions" Tab
    - Klicke auf "Daily Health Check"
    - ✅ Grün = Alles OK
@@ -602,6 +609,7 @@ The daily health check for our GitHub Pages deployment has failed.
 ### Was wird getestet?
 
 **1. Website Response**
+
 ```bash
 # Überprüft HTTP Status Code
 curl -s -o /dev/null -w "%{http_code}" https://dependency-injectors.github.io/WebDevKurs/
@@ -609,6 +617,7 @@ curl -s -o /dev/null -w "%{http_code}" https://dependency-injectors.github.io/We
 ```
 
 **2. Content Validation**
+
 ```bash
 # Überprüft HTML-Struktur
 grep "Vite + React"     # Page Title
@@ -616,6 +625,7 @@ grep 'id="root"'        # React Root Element
 ```
 
 **3. Asset Loading**
+
 ```bash
 # Überprüft JS/CSS Bundles
 grep "/WebDevKurs/assets/.*\.js"   # JavaScript Files
@@ -623,6 +633,7 @@ grep "/WebDevKurs/assets/.*\.css"  # CSS Files
 ```
 
 **4. Build Process**
+
 ```bash
 npm ci           # Dependencies installieren
 npm run build    # Production Build erstellen
@@ -630,6 +641,7 @@ npm test         # Tests ausführen
 ```
 
 **5. Performance Check**
+
 ```bash
 # Response Time Messung
 START_TIME=$(date +%s%3N)
@@ -650,6 +662,7 @@ RESPONSE_TIME=$((END_TIME - START_TIME))
 - ✅ **Concurrent Jobs:** 20 gleichzeitig
 
 **Unser Verbrauch:**
+
 - 📊 **Daily Health Check:** ~3 Minuten täglich
 - 📊 **Monatlicher Verbrauch:** ~90 Minuten
 - 📊 **Status:** Sehr gering, optimal für Free Tier
@@ -666,6 +679,7 @@ RESPONSE_TIME=$((END_TIME - START_TIME))
 6. **10:00 MESZ:** Problem wird behoben
 
 **Ohne Health Check:**
+
 - Problem könnte tagelang unentdeckt bleiben
 - Besucher sehen kaputte Website
 - Keine systematische Fehler-Erkennung
@@ -673,16 +687,19 @@ RESPONSE_TIME=$((END_TIME - START_TIME))
 ### Als Student: Was musst du wissen?
 
 **📚 Für deine Karriere:**
+
 - Health Checks sind **Standard in der Webentwicklung**
 - Zeigt **professionelle Arbeitsweise**
 - **DevOps/Monitoring** sind wichtige Skills
 
 **🛠️ Für dieses Projekt:**
+
 - Du musst **nichts** konfigurieren
 - System läuft **automatisch**
 - Bei Problemen wird **automatisch** ein Issue erstellt
 
 **🎯 Wenn du mehr lernen möchtest:**
+
 - Schaue dir `.github/workflows/health-check.yml` an
 - Experimentiere mit eigenen GitHub Actions
 - Lerne mehr über **Monitoring** und **DevOps**
