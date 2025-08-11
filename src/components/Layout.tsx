@@ -1,10 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router'
+import Navigation from './Navigation.js';
 const Layout = () => {
   return (
     <div>
-        <header>Header</header>
+        <header><Navigation/></header>
         <main>
+
             <Outlet/>
         </main>
         <footer>Footer</footer>
