@@ -527,6 +527,175 @@ npm run build
 
 ---
 
+## 🔍 Health Check & Monitoring System
+
+Das Projekt verfügt über ein automatisches Überwachungssystem, das täglich die Funktionalität der Website überprüft.
+
+### Was ist ein Health Check?
+
+Ein **Health Check** ist ein automatisierter Test, der regelmäßig überprüft, ob eine Anwendung ordnungsgemäß funktioniert. In unserem Fall überwacht er:
+
+- ✅ **Website-Erreichbarkeit** - Ist die Seite online?
+- ✅ **Content-Laden** - Wird der Inhalt korrekt angezeigt?
+- ✅ **Build-Prozess** - Funktioniert das Erstellen der Anwendung?
+- ✅ **Tests** - Laufen alle Tests erfolgreich?
+- ✅ **Performance** - Lädt die Seite schnell genug?
+
+### Cronjobs erklärt
+
+**Was ist ein Cronjob?**  
+Ein Cronjob ist ein zeitgesteuerter Auftrag, der automatisch zu bestimmten Zeiten ausgeführt wird.
+
+**Unser Health Check läuft:**
+- 🕘 **Täglich um 09:00 MESZ** (07:00 UTC)
+- 🔄 **Automatisch über GitHub Actions**
+- 📊 **Mit detailliertem Monitoring-Report**
+
+**Cron-Syntax Beispiele:**
+```bash
+0 7 * * *     # Täglich um 07:00 UTC (09:00 MESZ)
+0 */6 * * *   # Alle 6 Stunden
+0 9 * * 1     # Jeden Montag um 09:00 UTC
+```
+
+### Automatische Fehler-Meldung
+
+**Wenn etwas schief geht:**
+
+1. 🚨 **GitHub Issue wird automatisch erstellt**
+2. 📧 **Admins werden benachrichtigt**
+3. 🔗 **Direkte Links zum Problem**
+4. ✅ **Debugging-Checkliste**
+
+**Beispiel Auto-Issue:**
+```markdown
+🚨 Health Check Failed - 2025-08-11
+
+### ❌ Health check failed
+The daily health check for our GitHub Pages deployment has failed.
+
+**Please check:**
+- [ ] GitHub Pages deployment status
+- [ ] Website accessibility  
+- [ ] Build process
+- [ ] Content rendering
+
+**Links:**
+- [Failed Workflow Run](...)
+- [Live Site](https://dependency-injectors.github.io/WebDevKurs/)
+```
+
+### Health Check Status überprüfen
+
+**Wo siehst du den Status?**
+
+1. **GitHub Repository:**
+   - Gehe zu "Actions" Tab
+   - Klicke auf "Daily Health Check"
+   - ✅ Grün = Alles OK
+   - ❌ Rot = Problem gefunden
+
+2. **Manual Trigger:**
+   - Du kannst den Health Check manuell starten
+   - GitHub → Actions → "Daily Health Check" → "Run workflow"
+
+### Was wird getestet?
+
+**1. Website Response**
+```bash
+# Überprüft HTTP Status Code
+curl -s -o /dev/null -w "%{http_code}" https://dependency-injectors.github.io/WebDevKurs/
+# Erwartet: 200 (OK)
+```
+
+**2. Content Validation**
+```bash
+# Überprüft HTML-Struktur
+grep "Vite + React"     # Page Title
+grep 'id="root"'        # React Root Element
+```
+
+**3. Asset Loading**
+```bash
+# Überprüft JS/CSS Bundles
+grep "/WebDevKurs/assets/.*\.js"   # JavaScript Files
+grep "/WebDevKurs/assets/.*\.css"  # CSS Files
+```
+
+**4. Build Process**
+```bash
+npm ci           # Dependencies installieren
+npm run build    # Production Build erstellen
+npm test         # Tests ausführen
+```
+
+**5. Performance Check**
+```bash
+# Response Time Messung
+START_TIME=$(date +%s%3N)
+curl -s https://dependency-injectors.github.io/WebDevKurs/ > /dev/null
+END_TIME=$(date +%s%3N)
+RESPONSE_TIME=$((END_TIME - START_TIME))
+
+# Erwartet: < 5000ms (5 Sekunden)
+```
+
+### GitHub Actions Free Tier
+
+**Was ist kostenlos verfügbar?**
+
+- ✅ **Public Repositories:** Unlimited Minuten
+- ✅ **Private Repositories:** 2.000 Minuten/Monat
+- ✅ **Storage:** 500MB für Build-Artefakte
+- ✅ **Concurrent Jobs:** 20 gleichzeitig
+
+**Unser Verbrauch:**
+- 📊 **Daily Health Check:** ~3 Minuten täglich
+- 📊 **Monatlicher Verbrauch:** ~90 Minuten
+- 📊 **Status:** Sehr gering, optimal für Free Tier
+
+### Praktisches Beispiel
+
+**Angenommen, jemand bricht die Website:**
+
+1. **10:00 MESZ:** Student pusht fehlerhaften Code
+2. **Nächster Tag, 09:00 MESZ:** Health Check läuft automatisch
+3. **09:03 MESZ:** Health Check erkennt Problem
+4. **09:04 MESZ:** GitHub Issue wird automatisch erstellt
+5. **09:05 MESZ:** Admins bekommen Benachrichtigung
+6. **10:00 MESZ:** Problem wird behoben
+
+**Ohne Health Check:**
+- Problem könnte tagelang unentdeckt bleiben
+- Besucher sehen kaputte Website
+- Keine systematische Fehler-Erkennung
+
+### Als Student: Was musst du wissen?
+
+**📚 Für deine Karriere:**
+- Health Checks sind **Standard in der Webentwicklung**
+- Zeigt **professionelle Arbeitsweise**
+- **DevOps/Monitoring** sind wichtige Skills
+
+**🛠️ Für dieses Projekt:**
+- Du musst **nichts** konfigurieren
+- System läuft **automatisch**
+- Bei Problemen wird **automatisch** ein Issue erstellt
+
+**🎯 Wenn du mehr lernen möchtest:**
+- Schaue dir `.github/workflows/health-check.yml` an
+- Experimentiere mit eigenen GitHub Actions
+- Lerne mehr über **Monitoring** und **DevOps**
+
+### Weiterführende Links
+
+- 📖 [GitHub Actions Dokumentation](https://docs.github.com/en/actions)
+- 📖 [Cron Syntax Erklärung](https://crontab.guru/)
+- 📖 [Monitoring Best Practices](https://sre.google/sre-book/monitoring-distributed-systems/)
+- 📖 [DevOps Grundlagen](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-devops/)
+
+---
+
 ## ✅ Checkliste für deinen ersten Beitrag
 
 - [ ] Repository geklont

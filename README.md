@@ -404,6 +404,131 @@ Administratoren können Branch Protection Rules einrichten:
 - Require Pull Request reviews vor Merge
 - Automatische Tests müssen bestehen
 
+## Health Check & Monitoring
+
+Das Projekt verfügt über ein automatisches Health Check System, das die Verfügbarkeit und Funktionalität der GitHub Pages Deployment überwacht.
+
+### Daily Health Check
+
+**Schedule:** Täglich um 09:00 MESZ (07:00 UTC)  
+**Workflow:** `.github/workflows/health-check.yml`
+
+**Was wird überwacht:**
+
+1. **Website Accessibility** 
+   - HTTP 200 Response Check
+   - Server-Erreichbarkeit der Live-Site
+
+2. **Content Validation**
+   - HTML-Struktur (`<title>`, React root element)
+   - Asset-Referenzen (JS/CSS Bundles, Favicon)
+
+3. **Build Process**
+   - Lokaler Build-Test mit aktuellen Dependencies
+   - Build-Artefakte Validierung (`dist/` Ordner)
+
+4. **Testing**
+   - Vitest Test-Suite Ausführung
+   - Code-Qualität Validation
+
+5. **Performance Monitoring**
+   - Response Time Messung (< 5s acceptable)
+   - Load-Time Benchmarking
+
+### Cronjob Konzept
+
+**GitHub Actions Cronjobs** nutzen das gleiche Cron-Format wie Unix/Linux:
+
+```yaml
+schedule:
+  - cron: "0 7 * * *"  # 07:00 UTC = 09:00 MESZ
+```
+
+**Cron-Format Erklärung:**
+```
+┌───────────── Minute (0-59)
+│ ┌─────────── Stunde (0-23)  
+│ │ ┌───────── Tag des Monats (1-31)
+│ │ │ ┌─────── Monat (1-12)
+│ │ │ │ ┌───── Wochentag (0-6, 0 = Sonntag)
+│ │ │ │ │
+* * * * *
+```
+
+**Beispiele:**
+- `0 7 * * *` - Täglich um 07:00 UTC
+- `0 */6 * * *` - Alle 6 Stunden
+- `0 9 * * 1` - Montags um 09:00 UTC
+
+### Automatic Issue Creation
+
+Bei Health Check Fehlern wird automatisch ein GitHub Issue erstellt:
+
+**Features:**
+- 🚨 **Auto-Labels:** `health-check`, `bug`, `automated`
+- 📊 **Detailed Report:** Datum, Workflow-Run, Failed Step
+- 🔗 **Direct Links:** Failed Action Run, Live Site
+- ✅ **Checklist:** Systematische Debugging-Schritte
+
+**Beispiel Issue:**
+```markdown
+🚨 Health Check Failed - 2025-08-11
+
+### ❌ Health check failed
+
+**Please check:**
+- [ ] GitHub Pages deployment status  
+- [ ] Website accessibility
+- [ ] Build process
+- [ ] Content rendering
+
+**Links:**
+- [Failed Workflow Run](...)
+- [Live Site](https://dependency-injectors.github.io/WebDevKurs/)
+```
+
+### GitHub Actions Free Tier
+
+**Limits im kostenlosen GitHub Tier:**
+- **Private Repos:** 2.000 Minuten/Monat
+- **Public Repos:** Unlimited Minuten
+- **Concurrent Jobs:** 20 Jobs gleichzeitig
+- **Storage:** 500MB für Artifacts
+
+**Unser Health Check:**
+- **Laufzeit:** ~2-3 Minuten täglich
+- **Frequency:** 1x täglich (optimal für free tier)
+- **Monthly Usage:** ~90 Minuten (sehr gering)
+
+**Monitoring Dashboard:**
+Repository → Actions Tab → "Daily Health Check" Workflow
+
+### Manual Health Check
+
+Du kannst den Health Check auch manuell triggern:
+
+1. **GitHub Web Interface:**
+   - Repository → Actions → "Daily Health Check"
+   - "Run workflow" Button → "Run workflow"
+
+2. **Via GitHub CLI:**
+   ```bash
+   gh workflow run "Daily Health Check"
+   ```
+
+### Health Check Test Scripts
+
+**Package.json Scripts für Testing:**
+
+```json
+{
+  "scripts": {
+    "test": "vitest --run",           // Einmalige Test-Ausführung
+    "test:watch": "vitest",           // Watch-Mode für Development
+    "test:ui": "vitest --ui"          // Visual Test Interface
+  }
+}
+
 ## Projektstruktur
 
 ```
