@@ -1,6 +1,6 @@
 # Portfolio Gruppenprojekt – WebDevKurs
 
-Dieses Repository dient als Grundlage für unser Portfolio-Projekt im Webentwicklungs-Kurs. Wir erstellen gemeinsam eine React-Anwendung, die später über GitHub Pages veröffentlicht wird.
+Dieses Repository dient als Grundlage für unser Portfolio-Projekt im Webentwicklungs-Kurs. Wir erstellen gemeinsam eine React-Anwendung, die später über GitHub Pages veröffentlicht wird. Es ist möglich sowohl Javascript als auch Typescript zu verwenden.
 
 ## Branch-Konzept
 
@@ -120,3 +120,57 @@ BroeserRouter wurde in der main.jsx eingefügt, App.jsx beinhaltet die Routes.
 - Arbeite immer in deinem eigenen Branch und erstelle Pull Requests, wenn du Änderungen in den Haupt-Branch übernehmen möchtest.
 
 Viel Erfolg beim Umsetzen eurer Portfolio-Seiten!
+
+## Tests
+
+Wir verwenden [Vitest](https://vitest.dev/) und [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) für das Testen der Anwendung.  
+Vitest ist schnell, modern und optimal für Vite-Projekte geeignet.
+
+### Installation
+
+```bash
+npm install --save-dev vitest @testing-library/react @testing-library/jest-dom
+```
+
+### Beispiel für einen Test
+
+```tsx
+// src/pages/__tests__/About.test.tsx
+import { render, screen } from "@testing-library/react";
+import About from "../About";
+
+test("zeigt Überschrift an", () => {
+  render(<About />);
+  expect(screen.getByText("Über uns")).toBeInTheDocument();
+});
+```
+
+### Konfiguration
+
+Füge in deiner `vite.config.ts` folgendes hinzu:
+
+```ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: "jsdom",
+  },
+});
+```
+
+### Tests ausführen und GUI nutzen
+
+```bash
+npx vitest --ui
+```
+
+Damit öffnet sich eine Test-GUI im Browser.
+
+---
+
+**Hinweis:**  
+Alle neuen Seiten bitte als `.tsx` anlegen und Tests im Ordner `__tests__` erstellen.
+Jest und zugehörige Pakete können aus dem Projekt
