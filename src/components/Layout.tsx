@@ -10,7 +10,33 @@ const Layout = () => {
       <main className="flex-1">
         <Outlet />
       </main>
-      <footer className="min-h-16 px-4 py-6 bg-gray-900 text-gray-50 border-t-4 border-t-amber-400">Footer</footer>
+    
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+        <p className="text-xs text-gray-500">
+          © 2024 WebDev Kollaborationsprojekt. Ein Lernprojekt für
+          GitHub-Zusammenarbeit.
+        </p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <a
+            className="text-xs hover:underline underline-offset-4 text-gray-500"
+            href="#"
+          >
+            GitHub
+          </a>
+          <a
+            className="text-xs hover:underline underline-offset-4 text-gray-500"
+            href="#"
+          >
+            Dokumentation
+          </a>
+          <a
+            className="text-xs hover:underline underline-offset-4 text-gray-500"
+            href="#"
+          >
+            Beitragen
+          </a>
+        </nav>
+      </footer>
     </div>
   );
 };
