@@ -125,7 +125,7 @@ Du musst die Seite nur einmal in der routes-Datei hinzufügen!
 Der `Layout`-Komponente wird automatisch für alle Seiten verwendet.  
 Die Navigation zwischen den Seiten erfolgt über die Links in der Layout-Komponente.
 
-BroeserRouter wurde in der main.jsx eingefügt, App.jsx beinhaltet die Routes.
+BrowserRouter wurde in der main.jsx eingefügt, App.jsx beinhaltet die Routes.
 
 - Arbeite immer in deinem eigenen Branch und erstelle Pull Requests, wenn du Änderungen in den Haupt-Branch übernehmen möchtest.
 
@@ -159,14 +159,13 @@ describe("About Page", () => {
 ```
 
 **Für JSX-Dateien in TypeScript-Tests:**
-der Kommentar vor der Imortanweisung (// @ts-ignore) ist zwingen erforderlich bei jsx.Dateien!
+Dank der modernen TypeScript-Konfiguration mit `"allowJs": true` und `"moduleResolution": "bundler"` können JSX-Dateien direkt importiert werden:
 
 ```tsx
 // src/pages/__tests__/Home.test.tsx
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-// @ts-ignore
-import Home from "../Home.jsx";
+import Home from "../Home.jsx"; // Funktioniert ohne @ts-ignore
 
 describe("Home Page", () => {
   it("zeigt Startseite an", () => {
@@ -186,7 +185,7 @@ describe("Home Page", () => {
    ```tsx
    import { render, screen } from "@testing-library/react";
    import { describe, it, expect } from "vitest";
-   import MeinePage from "../MeinePage.js"; // oder .jsx
+   import MeinePage from "../MeinePage";
 
    describe("MeinePage", () => {
      it("sollte Text anzeigen", () => {
@@ -196,25 +195,20 @@ describe("Home Page", () => {
    });
    ```
 
-3. **Imports anpassen:**
-
-   - Für `.js`/`.jsx` Dateien: Endung mit angeben
-   - Für `.jsx` in TypeScript-Tests: `// @ts-ignore` vor dem Import
-
-4. **Tests ausführen:**
+3. **Tests ausführen:**
 
    ```bash
    npx vitest
    ```
 
-5. **Mit GUI:**
+4. **Mit GUI:**
    ```bash
    npx vitest --ui
    ```
 
 ### Konfiguration
 
-In der `vite.config.ts` wurde test hinzugeffügt und ein setupFile im src Ordner estellt:
+In der `vite.config.ts` wurde test hinzugefügt und ein setupFile im src Ordner erstellt:
 
 ```ts
 import { defineConfig } from "vite";
@@ -301,6 +295,7 @@ Die Test-Ergebnisse siehst du unter:
 ### GitHub Pages Deployment
 
 Das Projekt wird automatisch über GitHub Pages deployed und ist öffentlich verfügbar.
+Deploy erfolgt nur durch den main branch, daher müsst ihr warten, bis der Pull Request gemerged wurde durch einen Admin.
 
 **Deployment Workflow:**
 
@@ -312,41 +307,41 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       pages: write
       id-token: write
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          
+          node-version: "20"
+          cache: "npm"
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Build for production
         run: npm run build
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
-          
+          path: "./dist"
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
 ```
@@ -357,19 +352,21 @@ jobs:
 **Wichtige Konfigurationen für GitHub Pages:**
 
 1. **Vite Build Konfiguration** (`vite.config.js`):
+
    ```js
    export default defineConfig({
-     base: '/WebDevKurs/',  // Repository Name für GitHub Pages
+     base: "/WebDevKurs/", // Repository Name für GitHub Pages
      build: {
-       outDir: 'dist'
-     }
-   })
+       outDir: "dist",
+     },
+   });
    ```
 
 2. **React Router Konfiguration** (`src/main.jsx`):
+
    ```jsx
    import { BrowserRouter } from "react-router";
-   
+
    createRoot(document.getElementById("root")).render(
      <BrowserRouter basename="/WebDevKurs">
        <App />
@@ -377,7 +374,14 @@ jobs:
    );
    ```
 
+> [!IMPORTANT] > **Wichtiger Hinweis für die lokale Entwicklung:**  
+> Da wir den `basename="/WebDevKurs"` setzen, ist das Projekt beim Entwickeln **nicht** direkt auf `http://localhost:5173/` zu finden, sondern auf:  
+> **🔗 http://localhost:5173/WebDevKurs**
+>
+> Merke dir diese URL für die lokale Entwicklung!
+
 **Deployment Status überprüfen:**
+
 - GitHub Repository → Tab "Actions" → "Deploy to GitHub Pages"
 - Grüner Haken = erfolgreich deployed
 - Bei Fehlern: Logs in der jeweiligen Action einsehen
@@ -508,32 +512,40 @@ git push origin name/page   # Branch zum Repository pushen
 
 **Problem:** React Router funktioniert nicht mit GitHub Pages Subdirectory.
 
-**Lösung:** 
+**Lösung:**
+
 1. Überprüfe `basename` in `src/main.jsx`:
+
    ```jsx
    <BrowserRouter basename="/WebDevKurs">
    ```
 
 2. Überprüfe `base` in `vite.config.js`:
    ```js
-   base: '/WebDevKurs/'
+   base: "/WebDevKurs/";
    ```
 
 ### Tests schlagen fehl
 
 **Problem:** Import-Probleme bei JSX-Dateien in TypeScript-Tests.
 
-**Lösung:** `// @ts-ignore` vor JSX-Imports verwenden:
+**Lösung:** Dank der modernen TypeScript-Konfiguration können JSX-Dateien direkt importiert werden:
+
 ```tsx
-// @ts-ignore
-import Home from "../Home.jsx";
+import Home from "../Home.jsx"; // Funktioniert ohne @ts-ignore
 ```
+
+**Falls dennoch Probleme auftreten:**
+
+- Überprüfe, dass `"allowJs": true` in der `tsconfig.json` gesetzt ist
+- Stelle sicher, dass die Dateiendung korrekt angegeben ist (.jsx/.tsx)
 
 ### Deployment schlägt fehl
 
 **Problem:** Build-Fehler oder falsche Konfiguration.
 
 **Lösung:**
+
 1. Lokalen Build testen: `npm run build`
 2. GitHub Actions Logs überprüfen
 3. Dependencies aktualisieren: `npm ci`
