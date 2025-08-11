@@ -96,7 +96,7 @@ function App() {
 
 **Neue Pages erstellen:**
 
-1. Lege eine neue Datei im Ordner `src/pages` an, z.B. `About.jsx`.
+1. Lege eine neue Datei im Ordner `src/pages` an, z.B. `About.jsx` oder `About.tsx`.
 2. Erstelle darin eine React-Komponente:
    ```jsx
    function About() {
@@ -104,12 +104,22 @@ function App() {
    }
    export default About;
    ```
-3. Importiere die neue Seite in `App.jsx` und füge eine neue Route hinzu:
-   ```jsx
+3. Füge die neue Seite in `src/routes.tsx` hinzu:
+
+   ```tsx
+   // @ts-ignore (falls .jsx Datei)
    import About from "./pages/About";
-   // ...
-   <Route path="/about" element={<About />} />;
+
+   export const routes = [
+     { path: "/", label: "Home", element: <Home /> },
+     { path: "/about", label: "About", element: <About /> },
+     // weitere Seiten...
+   ];
    ```
+
+**Hinweis:**  
+Durch die zentrale `routes.tsx` werden sowohl die Navigation als auch die App-Routen automatisch aktualisiert.  
+Du musst die Seite nur einmal in der routes-Datei hinzufügen!
 
 **Hinweis:**  
 Der `Layout`-Komponente wird automatisch für alle Seiten verwendet.  
@@ -150,6 +160,7 @@ describe("About Page", () => {
 
 **Für JSX-Dateien in TypeScript-Tests:**
 der Kommentar vor der Imortanweisung (// @ts-ignore) ist zwingen erforderlich bei jsx.Dateien!
+
 ```tsx
 // src/pages/__tests__/Home.test.tsx
 import { render, screen } from "@testing-library/react";
@@ -239,3 +250,68 @@ Damit öffnet sich eine Test-GUI im Browser.
 
 **Hinweis:**  
 Alle neuen Seiten bitte als `.tsx` anlegen, wenn möglich und Tests im Ordner `__tests__` erstellen.
+
+## CI/CD Pipeline
+
+Das Projekt verwendet GitHub Actions für automatisierte Tests und Continuous Integration.
+
+### Test Workflow
+
+Die CI-Pipeline führt bei jedem Push und Pull Request automatisch Tests aus.  
+Konfiguration in `.github/workflows/test.yml`:
+
+```yaml
+name: CI Test
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Vitest
+        run: npx vitest --run
+```
+
+**Funktionen:**
+
+- Tests laufen auf allen Branches
+- Automatische Abhängigkeits-Installation
+- Vitest-Ausführung mit Ergebnissen
+
+### Ergebnisse anzeigen
+
+Die Test-Ergebnisse siehst du unter:
+
+- GitHub Repository → Tab "Actions"
+- Bei Pull Requests werden die Ergebnisse direkt angezeigt
+
+## TypeScript Konfiguration
+
+Das Projekt nutzt TypeScript mit optimierten Einstellungen für React/Vite:
+
+**Wichtige Einstellungen in `tsconfig.json`:**
+
+- `"moduleResolution": "bundler"` - Für moderne Bundler
+- `"noEmit": true` - Nur Type-Checking, keine Kompilierung
+- `"jsx": "react-jsx"` - React JSX Support
+- `"allowJs": true` - Unterstützung für JS/JSX Dateien
+
+**Branch Protection (optional):**
+Administratoren können Branch Protection Rules einrichten:
+
+- Settings → Branches → Add rule
+- Require Pull Request reviews vor Merge
+- Automatische Tests müssen bestehen

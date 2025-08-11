@@ -1,16 +1,14 @@
 import { Routes, Route } from "react-router";
-import Home from "./pages/Home";
-import Sven from "./pages/Sven";
-import Pawel from "./pages/Pawel";
+import { routes } from "./routes";
 import Layout from "./components/Layout";
 function App() {
   return (
     <>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="sven" element={<Sven />} />
-          <Route path="pawel" element={<Pawel />} />
+          {routes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
         </Route>
       </Routes>
     </>
