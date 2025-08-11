@@ -1,7 +1,7 @@
 import { Github, Users, Code, ArrowRight, ExternalLink } from "lucide-react";
 import StudentCarousel from "../components/student-carousel";
 
-export default function GitHubCollaborationLanding() {
+const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
@@ -194,3 +194,4 @@ export default function GitHubCollaborationLanding() {
     </div>
   );
 }
+export default Home;
