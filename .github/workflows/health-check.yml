@@ -48,20 +48,20 @@ jobs:
         run: |
           echo "🔍 Checking website content..."
 
-          # Check if main content is present
+          # Check if main HTML structure is present
           CONTENT=$(curl -s https://dependency-injectors.github.io/WebDevKurs/)
 
-          if echo "$CONTENT" | grep -q "Gemeinsam lernen"; then
-            echo "✅ Main content found"
+          if echo "$CONTENT" | grep -q "Vite + React"; then
+            echo "✅ Page title found"
           else
-            echo "❌ Main content missing"
+            echo "❌ Page title missing"
             exit 1
           fi
 
-          if echo "$CONTENT" | grep -q "GitHub Kollaborationsprojekt"; then
-            echo "✅ Project description found"
+          if echo "$CONTENT" | grep -q 'id="root"'; then
+            echo "✅ React root element found"
           else
-            echo "❌ Project description missing"
+            echo "❌ React root element missing"
             exit 1
           fi
 
@@ -69,13 +69,28 @@ jobs:
         run: |
           echo "🔍 Checking critical routes..."
 
-          # Check if JavaScript bundle loads
-          BUNDLE_CHECK=$(curl -s https://dependency-injectors.github.io/WebDevKurs/ | grep -o 'src="[^"]*\.js"' | head -1)
+          # Check if JavaScript and CSS bundles are referenced
+          CONTENT=$(curl -s https://dependency-injectors.github.io/WebDevKurs/)
 
-          if [ -n "$BUNDLE_CHECK" ]; then
+          if echo "$CONTENT" | grep -q '/WebDevKurs/assets/' && echo "$CONTENT" | grep -q '\.js'; then
             echo "✅ JavaScript bundle reference found"
           else
             echo "❌ JavaScript bundle missing"
+            exit 1
+          fi
+
+          if echo "$CONTENT" | grep -q '/WebDevKurs/assets/' && echo "$CONTENT" | grep -q '\.css'; then
+            echo "✅ CSS bundle reference found"
+          else
+            echo "❌ CSS bundle missing"
+            exit 1
+          fi
+
+          # Check if the favicon is properly referenced
+          if echo "$CONTENT" | grep -q '/WebDevKurs/vite.svg'; then
+            echo "✅ Favicon reference found"
+          else
+            echo "❌ Favicon reference missing"
             exit 1
           fi
 
