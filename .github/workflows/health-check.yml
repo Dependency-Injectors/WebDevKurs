@@ -97,7 +97,7 @@ jobs:
       - name: Run basic tests
         run: |
           echo "🧪 Running basic tests..."
-          npm test -- --run
+          npm test
 
       - name: Check build artifacts
         run: |
