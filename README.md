@@ -298,6 +298,90 @@ Die Test-Ergebnisse siehst du unter:
 - GitHub Repository → Tab "Actions"
 - Bei Pull Requests werden die Ergebnisse direkt angezeigt
 
+### GitHub Pages Deployment
+
+Das Projekt wird automatisch über GitHub Pages deployed und ist öffentlich verfügbar.
+
+**Deployment Workflow:**
+
+Die Anwendung wird automatisch bei Push auf den `main` Branch deployed.  
+Konfiguration in `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build for production
+        run: npm run build
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+          
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+```
+
+**Live URL:**  
+🚀 **https://dependency-injectors.github.io/WebDevKurs/**
+
+**Wichtige Konfigurationen für GitHub Pages:**
+
+1. **Vite Build Konfiguration** (`vite.config.js`):
+   ```js
+   export default defineConfig({
+     base: '/WebDevKurs/',  // Repository Name für GitHub Pages
+     build: {
+       outDir: 'dist'
+     }
+   })
+   ```
+
+2. **React Router Konfiguration** (`src/main.jsx`):
+   ```jsx
+   import { BrowserRouter } from "react-router";
+   
+   createRoot(document.getElementById("root")).render(
+     <BrowserRouter basename="/WebDevKurs">
+       <App />
+     </BrowserRouter>
+   );
+   ```
+
+**Deployment Status überprüfen:**
+- GitHub Repository → Tab "Actions" → "Deploy to GitHub Pages"
+- Grüner Haken = erfolgreich deployed
+- Bei Fehlern: Logs in der jeweiligen Action einsehen
+
 ## TypeScript Konfiguration
 
 Das Projekt nutzt TypeScript mit optimierten Einstellungen für React/Vite:
@@ -315,3 +399,156 @@ Administratoren können Branch Protection Rules einrichten:
 - Settings → Branches → Add rule
 - Require Pull Request reviews vor Merge
 - Automatische Tests müssen bestehen
+
+## Projektstruktur
+
+```
+WebDevKurs/
+├── .github/
+│   └── workflows/
+│       ├── test.yml          # CI Tests
+│       └── deploy.yml        # GitHub Pages Deployment
+├── src/
+│   ├── components/
+│   │   ├── Layout.jsx        # Hauptlayout mit Navigation
+│   │   ├── Navigation.tsx    # Dynamische Navigation
+│   │   └── student-carousel.tsx  # Studenten-Karussell
+│   ├── pages/
+│   │   ├── Home.jsx         # Startseite
+│   │   └── __tests__/       # Test-Dateien
+│   ├── routes.tsx           # Zentrale Routing-Konfiguration
+│   ├── main.jsx            # App Entry Point mit Router
+│   ├── App.jsx             # Haupt-App-Komponente
+│   ├── index.css           # Tailwind CSS Imports
+│   └── setupTests.ts       # Vitest Setup
+├── public/                 # Statische Assets
+├── dist/                   # Build Output (automatisch erstellt)
+├── package.json
+├── vite.config.js         # Vite + GitHub Pages Konfiguration
+├── tsconfig.json          # TypeScript Konfiguration
+└── README.md
+```
+
+## Entwicklungsprozess
+
+### 1. Lokale Entwicklung
+
+```bash
+# Repository klonen
+git clone https://github.com/Dependency-Injectors/WebDevKurs.git
+cd WebDevKurs
+
+# Dependencies installieren
+npm install
+
+# Entwicklungsserver starten
+npm run dev
+```
+
+### 2. Feature entwickeln
+
+```bash
+# Neuen Branch erstellen
+git checkout -b name/feature
+
+# Änderungen vornehmen...
+# Neue Seite in src/pages/ erstellen
+# Route in src/routes.tsx hinzufügen
+
+# Tests schreiben und ausführen
+npm test
+
+# Build testen
+npm run build
+```
+
+### 3. Pull Request erstellen
+
+```bash
+# Änderungen committen
+git add .
+git commit -m "Beschreibung der Änderungen"
+
+# Branch pushen
+git push origin name/feature
+
+# Pull Request auf GitHub erstellen
+# Tests werden automatisch ausgeführt
+```
+
+### 4. Merge und Deployment
+
+- Nach erfolgreichem Review wird der PR in `main` gemerged
+- Automatisches Deployment auf GitHub Pages
+- Live-Site wird aktualisiert
+
+## Wichtige Commands
+
+```bash
+# Entwicklung
+npm run dev          # Entwicklungsserver starten
+npm run build        # Production Build erstellen
+npm run preview      # Build lokal testen
+
+# Tests
+npm test             # Tests ausführen
+npm run test:ui      # Test GUI öffnen
+npx vitest --run     # Tests einmalig ausführen
+
+# Git Workflow
+git checkout main           # Zum main branch wechseln
+git pull origin main        # Neueste Änderungen holen
+git checkout -b name/page   # Neuen Feature-branch erstellen
+git push origin name/page   # Branch zum Repository pushen
+```
+
+## Häufige Probleme und Lösungen
+
+### GitHub Pages zeigt leere Seite
+
+**Problem:** React Router funktioniert nicht mit GitHub Pages Subdirectory.
+
+**Lösung:** 
+1. Überprüfe `basename` in `src/main.jsx`:
+   ```jsx
+   <BrowserRouter basename="/WebDevKurs">
+   ```
+
+2. Überprüfe `base` in `vite.config.js`:
+   ```js
+   base: '/WebDevKurs/'
+   ```
+
+### Tests schlagen fehl
+
+**Problem:** Import-Probleme bei JSX-Dateien in TypeScript-Tests.
+
+**Lösung:** `// @ts-ignore` vor JSX-Imports verwenden:
+```tsx
+// @ts-ignore
+import Home from "../Home.jsx";
+```
+
+### Deployment schlägt fehl
+
+**Problem:** Build-Fehler oder falsche Konfiguration.
+
+**Lösung:**
+1. Lokalen Build testen: `npm run build`
+2. GitHub Actions Logs überprüfen
+3. Dependencies aktualisieren: `npm ci`
+
+## Weiterführende Ressourcen
+
+- [React Dokumentation](https://react.dev/)
+- [Vite Dokumentation](https://vitejs.dev/)
+- [Tailwind CSS Dokumentation](https://tailwindcss.com/)
+- [React Router Dokumentation](https://reactrouter.com/)
+- [Vitest Dokumentation](https://vitest.dev/)
+- [GitHub Pages Dokumentation](https://docs.github.com/en/pages)
+
+---
+
+**Viel Erfolg beim Entwickeln! 🚀**
+
+Bei Fragen könnt ihr Issues im Repository erstellen oder in der Gruppe nachfragen.
