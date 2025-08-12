@@ -1,0 +1,18 @@
+[
+  {
+    "question": "Wie klone ich das Projekt?",
+    "answer": "Nutze den Befehl: git clone https://github.com/Dependency-Injectors/WebDevKurs.git und wechsle dann ins Verzeichnis mit cd WebDevKurs."
+  },
+  {
+    "question": "Wie starte ich den Entwicklungsserver?",
+    "answer": "Führe npm install aus, dann npm run dev. Die Seite ist unter http://localhost:5173/WebDevKurs erreichbar."
+  },
+  {
+    "question": "Wie prüfe ich die Code-Qualität?",
+    "answer": "Mit npm run lint (ESLint) und npm run format:check (Prettier) kannst du deinen Code vor dem Commit prüfen."
+  },
+  {
+    "question": "Wie kann ich Hilfe bekommen?",
+    "answer": "Sieh dir die README.md, ONBOARDING.md und TUTORIAL.md an oder frage im Team/auf GitHub."
+  }
+]
