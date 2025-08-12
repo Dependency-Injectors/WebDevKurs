@@ -1,9 +1,17 @@
+import { use } from "react";
 import { Outlet } from "react-router";
+
+import ThemeContext from "../lib/ThemeContext.js";
 
 import Navigation from "./Navigation.js";
 const Layout = () => {
+  const { theme } = use(ThemeContext);
   return (
-    <div className="flex flex-col min-h-screen">
+    <div
+      className={`flex flex-col min-h-screen dark:text-white dark:bg-black ${
+        theme === "light" ? "" : "dark"
+      }`}
+    >
       <header>
         <Navigation />
       </header>
