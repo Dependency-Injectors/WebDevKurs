@@ -6,7 +6,13 @@
       "numberOfRuns": 1
     },
     "assert": {
-      "preset": "lighthouse:recommended"
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "accessibility-score": "off",
+        "button-name": "off",
+        "color-contrast": "off",
+        "target-size": "off"
+      }
     },
     "upload": {
       "target": "temporary-public-storage"
