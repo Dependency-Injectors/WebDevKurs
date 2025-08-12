@@ -1,15 +1,15 @@
 import { Github, Users, Code, ArrowRight, ExternalLink } from "lucide-react";
-import StudentCarousel from "../components/student-carousel";
+import StudentCarousel from "../components/StudentCarousel";
 
 export default function GitHubCollaborationLanding() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-blue-900 dark:via-black dark:to-purple-900">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center space-y-6 text-center">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-sm font-medium">
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-sm font-medium">
                 <Users className="w-4 h-4 mr-2" />
                 GitHub Kollaborationsprojekt
               </div>
@@ -140,7 +140,7 @@ export default function GitHubCollaborationLanding() {
         {/* Students Carousel */}
         <section
           id="students"
-          className="w-full py-12 md:py-24 lg:py-32 bg-gray-50"
+          className="w-full py-12 md:py-24 lg:py-32 bg-gray-50 dark:bg-gray-900"
         >
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center mb-12">
@@ -165,7 +165,7 @@ export default function GitHubCollaborationLanding() {
         {/* GitHub CTA */}
         <section
           id="github"
-          className="w-full py-12 md:py-24 lg:py-32 bg-blue-600 text-white"
+          className="w-full py-12 md:py-24 lg:py-32 bg-blue-600 dark:bg-purple-900 text-white"
         >
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-6 text-center">
