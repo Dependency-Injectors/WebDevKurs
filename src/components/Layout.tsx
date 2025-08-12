@@ -1,5 +1,8 @@
-import React, { use } from "react";
+
+import { use } from "react";
+
 import { Outlet } from "react-router";
+
 import Navigation from "./Navigation.js";
 import { ThemeContext } from "./ThemeProvider.js";
 const Layout = () => {
@@ -25,19 +28,25 @@ const Layout = () => {
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <a
             className="text-xs hover:underline underline-offset-4 text-gray-500"
-            href="#"
+            href="https://github.com/Dependency-Injectors/WebDevKurs"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             GitHub
           </a>
           <a
             className="text-xs hover:underline underline-offset-4 text-gray-500"
-            href="#"
+            href="https://github.com/Dependency-Injectors/WebDevKurs/blob/main/README.md"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Dokumentation
           </a>
           <a
             className="text-xs hover:underline underline-offset-4 text-gray-500"
-            href="#"
+            href="https://github.com/Dependency-Injectors/WebDevKurs/blob/main/ONBOARDING.md"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Beitragen
           </a>

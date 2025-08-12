@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Sven = () => {
-  return (
-    <div>Sven</div>
-  )
-}
+  return <div>Sven</div>;
+};
 
-export default Sven
+export default Sven;
