@@ -6,6 +6,6 @@ import Sven from "../Sven";
 describe("Sven Page", () => {
   it("zeigt Überschrift an", () => {
     render(<Sven />);
-    expect(screen.getByText("Sven")).toBeInTheDocument();
+    expect(screen.getByText("Sven Lück")).toBeInTheDocument();
   });
 });

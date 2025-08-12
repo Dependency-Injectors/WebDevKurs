@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronLeft, ChevronRight, ExternalLink, User } from "lucide-react";
 import { useState } from "react";
 
