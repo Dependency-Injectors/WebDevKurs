@@ -1109,3 +1109,46 @@ const GitHubIcon = ({ className }: { className?: string }) => (
 **Viel Erfolg beim Entwickeln! 🚀**
 
 Bei Fragen könnt ihr Issues im Repository erstellen oder in der Gruppe nachfragen.
+
+## Lighthouse CI
+
+Dieses Projekt nutzt Lighthouse CI für automatisierte Qualitätsprüfungen der GitHub Pages-Seite.
+
+- Die Konfiguration befindet sich in `lighthouserc.json`.
+- Der Workflow `.github/workflows/lighthouse-pages.yml` startet Lighthouse CI nach jedem Pages-Deploy.
+- Alle Checks sind aktuell deaktiviert, sodass der Workflow immer erfolgreich ist.
+- Du kannst Checks in der `lighthouserc.json` wieder aktivieren, indem du sie aus dem `assertions`-Block entfernst oder anpasst.
+
+### Manuell lokal ausführen
+
+```bash
+npm run build
+npm run preview
+npx lhci autorun
+```
+
+Das Ergebnis findest du als Link im Terminal.
+
+## Onboarding
+
+### Lighthouse CI
+
+Lighthouse CI prüft automatisch die Qualität deiner GitHub Pages-Seite nach jedem Deploy. Es analysiert Performance, Accessibility, SEO und Best Practices.
+
+- **Automatischer Audit:** Nach jedem erfolgreichen Deploy auf GitHub Pages startet der Workflow `.github/workflows/lighthouse-pages.yml` einen Lighthouse CI Lauf.
+- **Konfiguration:** Die Datei `lighthouserc.json` steuert, welche Checks ausgeführt werden. Du kannst dort URLs, die Anzahl der Durchläufe und die zu prüfenden Kriterien festlegen.
+- **Assertions:** Im Block `assertions` kannst du einzelne Checks deaktivieren (z.B. Accessibility, Performance, SEO), indem du sie auf `"off"` setzt. Entfernst du einen Eintrag, wird der Check wieder aktiviert.
+- **Ergebnisse:** Nach jedem Lauf bekommst du einen Link zu einem ausführlichen Report. Dort findest du Hinweise und Optimierungsvorschläge für deine Seite.
+- **Manueller Audit:** Du kannst Lighthouse CI auch lokal ausführen:
+  ```bash
+  npm run build
+  npm run preview
+  npx lhci autorun
+  ```
+  Das Ergebnis findest du als Link im Terminal.
+- **Typische Anpassungen:**
+  - Checks gezielt aktivieren/deaktivieren
+  - URLs für verschiedene Deployments testen
+  - Thresholds für einzelne Checks anpassen
+
+Weitere Infos: [Lighthouse CI Dokumentation](https://github.com/GoogleChrome/lighthouse-ci)

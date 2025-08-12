@@ -1151,21 +1151,24 @@ RESPONSE_TIME=$((END_TIME - START_TIME))
 
 ---
 
-## ✅ Checkliste für deinen ersten Beitrag
+## 🚦 Lighthouse CI – Automatisierte Qualitätsprüfung
 
-- [ ] Repository geklont
-- [ ] Eigenen Branch erstellt (`deinname/seite`)
-- [ ] Neue Page-Datei erstellt (`src/pages/DeinName.jsx`)
-- [ ] Route hinzugefügt (`src/routes.tsx`)
-- [ ] Lokaler Test erfolgreich (Navigation funktioniert)
-- [ ] Styling mit Tailwind CSS angepasst
-- [ ] Änderungen committet und gepusht
-- [ ] Pull Request erstellt
-- [ ] Tests laufen erfolgreich
+Lighthouse CI prüft nach jedem Deploy auf GitHub Pages automatisch die Qualität deiner Website. Es analysiert Performance, Accessibility, SEO und Best Practices.
 
-**Herzlichen Glückwunsch! 🎉**
-Du hast erfolgreich deine erste Seite zum Portfolio hinzugefügt!
+- **Automatischer Audit:** Nach jedem erfolgreichen Deploy startet der Workflow `.github/workflows/lighthouse-pages.yml` einen Lighthouse CI Lauf.
+- **Konfiguration:** Die Datei `lighthouserc.json` steuert, welche Checks ausgeführt werden. Du kannst dort die zu prüfenden Kriterien festlegen und Checks gezielt deaktivieren (z.B. Accessibility, Performance, SEO) – setze sie einfach auf `"off"`.
+- **Assertions:** Im Block `assertions` kannst du einzelne Checks deaktivieren oder wieder aktivieren, indem du sie entfernst oder anpasst.
+- **Ergebnisse:** Nach jedem Lauf bekommst du einen Link zu einem ausführlichen Report mit Optimierungsvorschlägen.
+- **Manueller Audit:** Du kannst Lighthouse CI auch lokal ausführen:
+  ```bash
+  npm run build
+  npm run preview
+  npx lhci autorun
+  ```
+  Das Ergebnis findest du als Link im Terminal.
+- **Typische Anpassungen:**
+  - Checks gezielt aktivieren/deaktivieren
+  - URLs für verschiedene Deployments testen
+  - Thresholds für einzelne Checks anpassen
 
----
-
-**Bei Fragen melde dich gerne! Viel Spaß beim Entwickeln! 🚀**
+Weitere Infos: [Lighthouse CI Dokumentation](https://github.com/GoogleChrome/lighthouse-ci)
