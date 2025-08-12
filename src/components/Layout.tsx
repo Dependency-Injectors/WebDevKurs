@@ -1,10 +1,9 @@
-
 import { use } from "react";
-
 import { Outlet } from "react-router";
 
+import ThemeContext from "../lib/ThemeContext.js";
+
 import Navigation from "./Navigation.js";
-import { ThemeContext } from "./ThemeProvider.js";
 const Layout = () => {
   const { theme } = use(ThemeContext);
   return (

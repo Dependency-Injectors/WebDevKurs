@@ -1,6 +1,6 @@
 export type Theme = "dark" | "light";
 
-export type ThemeContextTypes = {
+export interface ThemeContextTypes {
   theme: Theme;
   toggleTheme: () => void;
-};
+}

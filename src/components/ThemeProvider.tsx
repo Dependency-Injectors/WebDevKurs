@@ -1,9 +1,7 @@
-import React, { createContext, PropsWithChildren, ReactNode, useState } from "react";
-import { Theme, ThemeContextTypes } from "../lib/types";
-export const ThemeContext = createContext({
-  theme: "light",
-  toggleTheme: () => {},
-} as ThemeContextTypes);
+import { useState, type PropsWithChildren } from "react";
+
+import ThemeContext from "../lib/ThemeContext";
+import type { Theme } from "../lib/types";
 
 const ThemeProvider = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState<Theme>(() => {
@@ -11,7 +9,7 @@ const ThemeProvider = ({ children }: PropsWithChildren) => {
   });
 
   const toggleTheme = () => {
-    setTheme((prev) => {
+    setTheme(prev => {
       const newTheme = prev === "light" ? "dark" : "light";
       localStorage.setItem("theme", newTheme);
       return newTheme;

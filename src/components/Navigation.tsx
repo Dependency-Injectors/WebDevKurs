@@ -1,21 +1,24 @@
-
-import { ChevronLeft, ChevronRight, Home, Menu, Users, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Home,
+  Menu,
+  Users,
+  X,
+  Moon,
+  Sun,
+} from "lucide-react";
 import { use, useEffect, useState } from "react";
 import { NavLink } from "react-router";
 
+import ThemeContext from "../lib/ThemeContext";
 import { routes } from "../routes";
-
-import { Moon, Sun } from "lucide-react";
-import { ThemeContext } from "./ThemeProvider";
-
-
 
 const getActiveClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? "text-blue-500 font-bold" : "text-gray-700 hover:text-blue-400";
 
 const Navigation = () => {
   const { theme, toggleTheme } = use(ThemeContext);
-
 
   const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -155,7 +158,7 @@ const Navigation = () => {
         >
           <Menu className="w-6 h-6" />
         </button>
-        <div className="md:block" >
+        <div className="md:block">
           <button onClick={toggleTheme}>
             {theme === "dark" ? <Moon /> : <Sun />}
           </button>
