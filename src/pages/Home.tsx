@@ -1,4 +1,5 @@
 import { Users, Code, ArrowRight, ExternalLink } from "lucide-react";
+
 import StudentCarousel from "../components/student-carousel";
 
 // GitHub SVG Icon Component
@@ -113,23 +114,23 @@ const Home = () => {
                     </p>
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-green-500 rounded-full" />
                         <span className="text-sm">Git & GitHub Workflows</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full" />
                         <span className="text-sm">
                           Pull Requests & Code Reviews
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-purple-500 rounded-full" />
                         <span className="text-sm">
                           Moderne Frontend-Entwicklung
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-orange-500 rounded-full" />
                         <span className="text-sm">
                           Teamarbeit & Kommunikation
                         </span>

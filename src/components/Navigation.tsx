@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Home, Menu, Users, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
-import { ChevronLeft, ChevronRight, Menu, X, Users, Home } from "lucide-react";
-import { routes, RouteConfig } from "../routes";
+
+import { routes } from "../routes";
 
 const getActiveClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? "text-blue-500 font-bold" : "text-gray-700 hover:text-blue-400";
@@ -11,11 +12,11 @@ const Navigation = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Filtere Routen nach Typ
-  const homeRoute = routes.find((route) => route.path === "/");
+  const homeRoute = routes.find(route => route.path === "/");
   const regularRoutes = routes.filter(
-    (route) => route.path !== "/" && !route.isStudent
+    route => route.path !== "/" && !route.isStudent
   );
-  const studentRoutes = routes.filter((route) => route.isStudent === true);
+  const studentRoutes = routes.filter(route => route.isStudent === true);
 
   // Schließe Mobile Sidebar bei Resize auf Desktop
   useEffect(() => {
@@ -83,6 +84,14 @@ const Navigation = () => {
         <div
           className="hidden md:block fixed inset-0 bg-black/30"
           onClick={() => setIsDesktopSidebarOpen(false)}
+          onKeyDown={e => {
+            if (e.key === "Escape") {
+              setIsDesktopSidebarOpen(false);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Close sidebar"
         />
       )}
 
@@ -137,7 +146,7 @@ const Navigation = () => {
         >
           <Menu className="w-6 h-6" />
         </button>
-        <div className="hidden md:block"></div>
+        <div className="hidden md:block" />
       </div>
 
       {isMobileSidebarOpen && (
@@ -145,6 +154,14 @@ const Navigation = () => {
           <div
             className="absolute inset-0"
             onClick={() => setIsMobileSidebarOpen(false)}
+            onKeyDown={e => {
+              if (e.key === "Escape") {
+                setIsMobileSidebarOpen(false);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="Close mobile sidebar"
           />
 
           <div className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl transform transition-transform duration-300">

@@ -27,6 +27,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Code Quality Check
+        run: |
+          echo "🔍 Running code quality checks..."
+
+          echo "📝 Type checking..."
+          npm run type-check
+
+          echo "🔧 ESLint check..."
+          npm run lint
+
+          echo "🎨 Prettier check..."
+          npm run format:check
+
+          echo "✅ Code quality checks passed"
+
       - name: Build application
         run: npm run build
 

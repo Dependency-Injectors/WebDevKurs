@@ -73,7 +73,6 @@ npm --version      # Sollte eine Versionsnummer zeigen
    ```
 
    **Beispiele:**
-
    - `max/portfolio`
    - `anna/ueber-mich`
    - `tom/projekte`
@@ -89,7 +88,6 @@ npm --version      # Sollte eine Versionsnummer zeigen
    ```
 
 2. **Erstelle eine neue Datei:**
-
    - Dateiname: `DeinName.jsx` (z.B. `Max.jsx`)
    - **Tipp:** Verwende `.tsx` für TypeScript (empfohlen)
 
@@ -366,27 +364,406 @@ export default Max;
    npm test
    ```
 
+## 🎨 Schritt 5.5: Code Quality & Formatierung
+
+### Was ist Code Quality?
+
+**Code Quality** bedeutet, dass dein Code:
+
+- ✅ **Sauber formatiert** ist (einheitliche Einrückungen, Leerzeichen)
+- ✅ **Fehlerfrei** ist (keine Syntax-Fehler, TypeScript-Fehler)
+- ✅ **Best Practices** befolgt (React-Patterns, Accessibility)
+- ✅ **Konsistent** ist (gleicher Stil im ganzen Team)
+
+**Warum ist das wichtig?**
+
+- 👥 **Teamarbeit:** Jeder kann deinen Code verstehen
+- 🐛 **Weniger Bugs:** Automatische Fehler-Erkennung
+- 🚀 **Professionell:** Standards wie in echten Firmen
+- 📚 **Lerneffekt:** Du lernst Best Practices automatisch
+
+### Automatische Code-Formatierung
+
+**Das Projekt formatiert deinen Code automatisch!**
+
+**1. Beim Speichern (VS Code):**
+
+```json
+// Automatisch konfiguriert in .vscode/settings.json
+{
+  "editor.formatOnSave": true, // Format beim Speichern
+  "editor.defaultFormatter": "prettier", // Prettier als Formatter
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true // ESLint-Fixes automatisch
+  }
+}
+```
+
+**2. Manuell formatieren:**
+
+```bash
+# Alle Dateien formatieren
+npm run format
+
+# Formatierung überprüfen (ohne Änderungen)
+npm run format:check
+```
+
+**Beispiel - Vorher/Nachher:**
+
+```javascript
+// 😵 Unformatiert (wie du es schreibst)
+function Component() {
+  return (
+    <div>
+      <h1>Hello</h1>
+      <p>World</p>
+    </div>
+  );
+}
+
+// ✨ Automatisch formatiert (nach dem Speichern)
+function Component() {
+  return (
+    <div>
+      <h1>Hello</h1>
+      <p>World</p>
+    </div>
+  );
+}
+```
+
+### ESLint - Dein Code-Mentor
+
+**ESLint ist wie ein hilfreicher Mentor, der dir zeigt:**
+
+- ❌ **Fehler** die du gemacht hast
+- ⚠️ **Verbesserungen** die du machen kannst
+- 💡 **Best Practices** die du lernen solltest
+
+**Beispiele für ESLint-Hilfe:**
+
+**1. Barrierefreiheit (Accessibility):**
+
+```jsx
+// ❌ ESLint warnt: "Missing alt attribute"
+<img src="photo.jpg" />
+
+// ✅ ESLint ist glücklich
+<img src="photo.jpg" alt="Mein Profilbild" />
+```
+
+**2. React Best Practices:**
+
+```jsx
+// ❌ ESLint warnt: "Missing key prop"
+{
+  students.map(student => <div>{student.name}</div>);
+}
+
+// ✅ ESLint ist glücklich
+{
+  students.map(student => <div key={student.id}>{student.name}</div>);
+}
+```
+
+**3. TypeScript Hilfe:**
+
+```typescript
+// ❌ ESLint warnt: "Type annotation missing"
+const handleClick = event => {
+  // Was ist 'event'? Unbekannt!
+};
+
+// ✅ ESLint ist glücklich
+const handleClick = (event: React.MouseEvent) => {
+  // Jetzt weiß TypeScript was 'event' ist!
+};
+```
+
+### Quality Commands
+
+**Die wichtigsten Befehle für dich:**
+
+```bash
+# 🔍 Probleme finden
+npm run lint              # Zeigt alle ESLint-Probleme
+
+# 🔧 Probleme automatisch beheben
+npm run lint:fix          # Behebt ESLint-Probleme automatisch
+
+# 🎨 Code formatieren
+npm run format            # Formatiert allen Code mit Prettier
+
+# 📝 TypeScript überprüfen
+npm run type-check        # Überprüft TypeScript-Typen
+
+# 🎯 Alles auf einmal (empfohlen!)
+npm run quality           # Alle Checks ausführen
+npm run quality:fix       # Alle Checks + automatische Fixes
+```
+
+### VS Code Setup für optimale Erfahrung
+
+**Installiere diese Extensions:**
+
+1. **Prettier - Code formatter** (`esbenp.prettier-vscode`)
+   - Automatische Code-Formatierung
+2. **ESLint** (`dbaeumer.vscode-eslint`)
+   - Zeigt Probleme direkt im Editor an
+3. **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`)
+   - Autocomplete für Tailwind-Klassen
+
+**Nach Installation:**
+
+- ✅ Code wird beim Speichern automatisch formatiert
+- ✅ ESLint-Probleme werden unterstrichen angezeigt
+- ✅ Quick-Fixes verfügbar (Glühbirne-Symbol)
+
+### Pre-Commit Hooks - Automatische Qualitätsprüfung
+
+**Was passiert beim Git Commit:**
+
+```bash
+git commit -m "Meine Änderungen"
+
+# Automatisch ausgeführt:
+1. 🔍 ESLint prüft geänderte Dateien
+2. 🎨 Prettier formatiert geänderte Dateien
+3. 🧪 Tests werden ausgeführt
+4. ✅ Nur bei Erfolg: Commit wird erstellt
+```
+
+**Bei Problemen:**
+
+```bash
+❌ ESLint found problems:
+  src/pages/Max.jsx:15:7  Missing alt attribute  jsx-a11y/alt-text
+
+# Du musst die Probleme beheben:
+npm run lint:fix        # Automatische Fixes
+# oder manuell beheben, dann:
+git add .
+git commit -m "Meine Änderungen"
+```
+
+### Praktische Beispiele
+
+**1. Neue Komponente erstellen:**
+
+```jsx
+// src/components/UserCard.tsx
+import type { FC } from 'react';
+
+interface UserCardProps {
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+const UserCard: FC<UserCardProps> = ({ name, email, avatar }) => {
+  return (
+    <div className="bg-white rounded-lg shadow-md p-6">
+      {avatar && (
+        <img
+          src={avatar}
+          alt={`Profilbild von ${name}`}  // ✅ Accessibility
+          className="w-16 h-16 rounded-full mx-auto mb-4"
+        />
+      )}
+      <h3 className="text-lg font-semibold text-center">{name}</h3>
+      <p className="text-gray-600 text-center">{email}</p>
+    </div>
+  );
+};
+
+export default UserCard;
+```
+
+**2. Nach dem Speichern (automatisch):**
+
+- ✅ Prettier formatiert den Code
+- ✅ ESLint prüft auf Probleme
+- ✅ TypeScript validiert die Typen
+- ✅ Imports werden organisiert
+
+**3. Vor dem Commit:**
+
+```bash
+# Letzte Qualitätsprüfung
+npm run quality:fix
+
+# Alles OK? Dann commit:
+git add .
+git commit -m "Add UserCard component with TypeScript"
+```
+
+### Quality Check in der Pipeline
+
+**Bei Pull Requests wird automatisch geprüft:**
+
+```yaml
+# GitHub Actions führt aus:
+✅ TypeScript Check
+✅ ESLint Validation
+✅ Prettier Check
+✅ Tests
+✅ Build Check
+# Nur bei allen ✅ kann gemerged werden!
+```
+
+**Du siehst die Ergebnisse:**
+
+- 🟢 **Grüne Häkchen** = Alles super!
+- 🔴 **Rote X** = Probleme gefunden, bitte beheben
+
+### Häufige Probleme und Lösungen
+
+**1. ESLint-Fehler:**
+
+```bash
+# Problem: 'React' must be in scope when using JSX
+# Lösung: Nicht nötig in React 17+ (schon konfiguriert)
+
+# Problem: Missing 'alt' attribute
+# Lösung: Alt-Text zu Bildern hinzufügen
+<img src="..." alt="Beschreibung" />
+
+# Problem: Unexpected console statement
+# Lösung: console.log() entfernen oder console.warn()/console.error() nutzen
+```
+
+**2. Prettier-Probleme:**
+
+```bash
+# Problem: Code formatting issues
+# Lösung: Automatisch beheben
+npm run format
+```
+
+**3. TypeScript-Fehler:**
+
+```typescript
+// Problem: Type 'string | undefined' is not assignable to type 'string'
+// Lösung: Optional chaining oder type guards verwenden
+const userName = user?.name ?? "Anonymous";
+```
+
+### Lerneffekt: Warum das alles?
+
+**1. Professionelle Entwicklung:**
+
+- 🏢 **In echten Firmen** sind solche Tools Standard
+- 👥 **Teamarbeit** funktioniert nur mit einheitlichen Standards
+- 🚀 **Bessere Codequalität** führt zu weniger Bugs
+
+**2. Automatisierung:**
+
+- 🤖 **Du musst nicht nachdenken** - Tools machen das für dich
+- ⚡ **Schnellere Entwicklung** - Weniger manuelle Formatierung
+- 🎯 **Fokus auf Features** - Nicht auf Code-Stil
+
+**3. Lernhilfe:**
+
+- 📚 **Automatisches Lernen** von Best Practices
+- 💡 **Sofortiges Feedback** bei Problemen
+- 🎓 **Verbesserung der Code-Qualität** über Zeit
+
+**4. Karriere-Vorteil:**
+
+- 💼 **Arbeitgeber erwarten** diese Skills
+- 🏆 **Du kennst moderne Tools** und Workflows
+- 📈 **Professionelle Entwicklung** von Anfang an
+
+### Quick Reference
+
+**Tägliche Befehle:**
+
+```bash
+# Vor der Arbeit
+npm run dev              # Development Server starten
+
+# Während der Arbeit
+# (VS Code macht automatisch Format + Lint beim Speichern)
+
+# Vor dem Commit
+npm run quality:fix      # Alles prüfen und beheben
+git add .
+git commit -m "..."
+```
+
+**Bei Problemen:**
+
+```bash
+npm run lint             # Was ist das Problem?
+npm run lint:fix         # Automatisch beheben
+npm run format           # Code formatieren
+npm run type-check       # TypeScript prüfen
+```
+
 ## 📤 Schritt 6: Änderungen commiten und pushen
 
-1. **Änderungen anzeigen:**
+### ⚡ Automatische Quality Checks
+
+**Das Projekt prüft deinen Code automatisch vor jedem Commit!**
+
+1. **Qualität prüfen (empfohlen):**
+
+   ```bash
+   # Alles auf einmal prüfen und beheben
+   npm run quality:fix
+   ```
+
+   **Was passiert:**
+   - ✅ TypeScript-Typen werden validiert
+   - ✅ ESLint-Probleme werden automatisch behoben
+   - ✅ Code wird formatiert (Prettier)
+   - ✅ Tests werden ausgeführt
+
+2. **Änderungen anzeigen:**
 
    ```bash
    git status
    ```
 
-2. **Dateien hinzufügen:**
+3. **Dateien hinzufügen:**
 
    ```bash
    git add .
    ```
 
-3. **Commit erstellen:**
+4. **Commit erstellen:**
 
    ```bash
    git commit -m "Füge meine Portfolio-Seite hinzu"
    ```
 
-4. **Branch pushen:**
+   **💡 Pre-Commit Hooks laufen automatisch:**
+
+   ```bash
+   # Das passiert automatisch beim Commit:
+   ✅ Running lint-staged...
+   ✅ ESLint fixes applied
+   ✅ Prettier formatting applied
+   ✅ Running tests...
+   ✅ All tests passed
+   ✅ Commit successful!
+   ```
+
+   **Bei Problemen:**
+
+   ```bash
+   ❌ ESLint found errors:
+     src/pages/Max.jsx:15  Missing alt attribute
+
+   # Probleme beheben:
+   npm run lint:fix
+   # oder manuell beheben, dann erneut:
+   git add .
+   git commit -m "Füge meine Portfolio-Seite hinzu"
+   ```
+
+5. **Branch pushen:**
    ```bash
    git push origin deinname/meine-seite
    ```
@@ -394,11 +771,9 @@ export default Max;
 ## 🔄 Schritt 7: Pull Request erstellen
 
 1. **Gehe zu GitHub:**
-
    - Öffne https://github.com/Dependency-Injectors/WebDevKurs
 
 2. **Pull Request erstellen:**
-
    - Du siehst einen gelben Banner "Compare & pull request"
    - Klicke darauf
 
@@ -427,8 +802,37 @@ export default Max;
 
 4. **Pull Request öffnen:**
    - Klicke "Create pull request"
-   - Tests laufen automatisch
-   - Warte auf Review
+   - **Automatische Quality Checks laufen:**
+
+   ```bash
+   🔄 Quality Gate & Testing
+   ├── ✅ Type checking
+   ├── ✅ ESLint check
+   ├── ✅ Prettier check
+   ├── ✅ Run tests
+   └── ✅ Build check
+   ```
+
+   **Mögliche Ergebnisse:**
+   - 🟢 **Alle Checks bestanden** → PR kann gemerged werden
+   - 🔴 **Checks fehlgeschlagen** → Du musst Probleme beheben
+
+   **Bei fehlgeschlagenen Checks:**
+
+   ```bash
+   # Lokal beheben:
+   npm run quality:fix    # Automatische Fixes
+   git add .
+   git commit -m "Fix quality issues"
+   git push origin deinname/meine-seite
+
+   # Checks laufen automatisch erneut
+   ```
+
+5. **Warte auf Review:**
+   - Admin reviewed deinen Code
+   - Bei Approval wird gemerged
+   - Live-Deployment auf GitHub Pages erfolgt automatisch
 
 ## 🎯 Tipps und Tricks
 
@@ -468,7 +872,7 @@ import { Mail, User, Heart } from "lucide-react";
 <Mail className="w-6 h-6" />;
 ```
 
-**⚠️ GitHub Icon Hinweis:**  
+**⚠️ GitHub Icon Hinweis:**
 Das GitHub Icon von Lucide ist deprecated. Verwende stattdessen:
 
 ```jsx
@@ -543,7 +947,7 @@ Ein **Health Check** ist ein automatisierter Test, der regelmäßig überprüft,
 
 ### Cronjobs erklärt
 
-**Was ist ein Cronjob?**  
+**Was ist ein Cronjob?**
 Ein Cronjob ist ein zeitgesteuerter Auftrag, der automatisch zu bestimmten Zeiten ausgeführt wird.
 
 **Unser Health Check läuft:**
@@ -596,7 +1000,6 @@ The daily health check for our GitHub Pages deployment has failed.
 **Wo siehst du den Status?**
 
 1. **GitHub Repository:**
-
    - Gehe zu "Actions" Tab
    - Klicke auf "Daily Health Check"
    - ✅ Grün = Alles OK
@@ -725,7 +1128,7 @@ RESPONSE_TIME=$((END_TIME - START_TIME))
 - [ ] Pull Request erstellt
 - [ ] Tests laufen erfolgreich
 
-**Herzlichen Glückwunsch! 🎉**  
+**Herzlichen Glückwunsch! 🎉**
 Du hast erfolgreich deine erste Seite zum Portfolio hinzugefügt!
 
 ---

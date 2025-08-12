@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronLeft, ChevronRight, ExternalLink, User } from "lucide-react";
+import { useState } from "react";
 
 // GitHub SVG Icon Component
 const GitHubIcon = ({ className }: { className?: string }) => (
@@ -55,13 +55,13 @@ export default function StudentCarousel() {
   const itemsPerPage = 3;
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
+    setCurrentIndex(prevIndex =>
       prevIndex + itemsPerPage >= students.length ? 0 : prevIndex + itemsPerPage
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
+    setCurrentIndex(prevIndex =>
       prevIndex === 0
         ? Math.max(0, students.length - itemsPerPage)
         : Math.max(0, prevIndex - itemsPerPage)
@@ -114,7 +114,7 @@ export default function StudentCarousel() {
 
       {/* Student Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {visibleStudents.map((student) => (
+        {visibleStudents.map(student => (
           <div
             key={student.id}
             className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
@@ -131,7 +131,7 @@ export default function StudentCarousel() {
               </p>
 
               <div className="flex flex-wrap gap-2 mb-4">
-                {student.technologies.map((tech) => (
+                {student.technologies.map(tech => (
                   <span
                     key={tech}
                     className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full"

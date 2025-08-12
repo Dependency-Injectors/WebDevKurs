@@ -10,8 +10,8 @@ Jeder Teilnehmer arbeitet in einem eigenen Branch. Der Branch-Name sollte nach f
 name/page
 ```
 
-**Beispiel:**  
-Für Max, der an der Startseite arbeitet:  
+**Beispiel:**
+Für Max, der an der Startseite arbeitet:
 `max/startseite`
 
 ## Branch im Terminal erstellen
@@ -70,8 +70,8 @@ Für die Navigation verwenden wir React-Router. Dies wurde bereits integriert.
 npm i react-router-dom
 ```
 
-Die Routen werden in der `App.jsx` definiert.  
-Das Layout für alle Seiten wird über die `Layout`-Komponente eingebunden.  
+Die Routen werden in der `App.jsx` definiert.
+Das Layout für alle Seiten wird über die `Layout`-Komponente eingebunden.
 Die einzelnen Seiten liegen im Ordner `src/pages`.
 
 **Beispiel für die Routenstruktur in App.jsx:**
@@ -117,12 +117,12 @@ function App() {
    ];
    ```
 
-**Hinweis:**  
-Durch die zentrale `routes.tsx` werden sowohl die Navigation als auch die App-Routen automatisch aktualisiert.  
+**Hinweis:**
+Durch die zentrale `routes.tsx` werden sowohl die Navigation als auch die App-Routen automatisch aktualisiert.
 Du musst die Seite nur einmal in der routes-Datei hinzufügen!
 
-**Hinweis:**  
-Der `Layout`-Komponente wird automatisch für alle Seiten verwendet.  
+**Hinweis:**
+Der `Layout`-Komponente wird automatisch für alle Seiten verwendet.
 Die Navigation zwischen den Seiten erfolgt über die Links in der Layout-Komponente.
 
 BrowserRouter wurde in der main.jsx eingefügt, App.jsx beinhaltet die Routes.
@@ -133,7 +133,7 @@ Viel Erfolg beim Umsetzen eurer Portfolio-Seiten!
 
 ## Tests
 
-Wir verwenden [Vitest](https://vitest.dev/) und [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) für das Testen der Anwendung.  
+Wir verwenden [Vitest](https://vitest.dev/) und [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) für das Testen der Anwendung.
 Vitest ist schnell, modern und optimal für Vite-Projekte geeignet.
 
 ### Installation
@@ -177,7 +177,7 @@ describe("Home Page", () => {
 
 ### Anleitung: Tests erstellen
 
-1. **Test-Datei anlegen:**  
+1. **Test-Datei anlegen:**
    Erstelle im Ordner `src/pages/__tests__/` eine neue Datei, z.B. `MeinePage.test.tsx`
 
 2. **Grundstruktur:**
@@ -242,20 +242,307 @@ Damit öffnet sich eine Test-GUI im Browser.
 
 ---
 
-**Hinweis:**  
+**Hinweis:**
 Alle neuen Seiten bitte als `.tsx` anlegen, wenn möglich und Tests im Ordner `__tests__` erstellen.
+
+## Code Quality & Formatierung
+
+Das Projekt implementiert professionelle Code-Qualitäts-Standards mit automatischer Formatierung und umfassenden Linting-Regeln.
+
+### ESLint Konfiguration
+
+**Moderne ESLint-Setup mit:**
+
+- **React 19 Support** - Optimiert für neueste React-Features
+- **TypeScript Integration** - Vollständige TypeScript-Unterstützung
+- **Accessibility Rules** - JSX-A11y für barrierefreie Webentwicklung
+- **Import Organization** - Automatische Import-Sortierung
+- **React Hooks Rules** - Validierung für React Hook-Patterns
+
+**Konfigurationsdateien:**
+
+```javascript
+// eslint.config.js - Moderne ESLint 9 Flat Config
+export default [
+  // JavaScript/JSX Rules
+  {
+    files: ["**/*.{js,jsx}"],
+    rules: {
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "prefer-const": "error",
+      "no-var": "error",
+      // React-spezifische Regeln
+      "react/jsx-key": ["error", { checkFragmentShorthand: true }],
+      "react/self-closing-comp": "error",
+    },
+  },
+  // TypeScript-spezifische Rules
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/prefer-optional-chain": "error",
+      "@typescript-eslint/consistent-type-imports": "error",
+    },
+  },
+];
+```
+
+### Prettier Formatierung
+
+**Automatische Code-Formatierung mit:**
+
+```json
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": false,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "endOfLine": "lf",
+  "arrowParens": "avoid"
+}
+```
+
+**Prettier integriert:**
+
+- ✅ **Format on Save** - Automatische Formatierung beim Speichern
+- ✅ **Import Organization** - Sortierung der Imports
+- ✅ **Consistent Styling** - Einheitlicher Code-Stil im Team
+- ✅ **Pre-commit Hooks** - Formatierung vor Git-Commits
+
+### Quality Scripts
+
+**NPM Scripts für Code-Qualität:**
+
+```json
+{
+  "scripts": {
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "quality": "npm run type-check && npm run lint && npm run format:check && npm run test",
+    "quality:fix": "npm run type-check && npm run lint:fix && npm run format && npm run test"
+  }
+}
+```
+
+**Einzelne Checks:**
+
+```bash
+# Linting
+npm run lint              # ESLint-Probleme anzeigen
+npm run lint:fix          # ESLint-Probleme automatisch beheben
+
+# Formatierung
+npm run format            # Alle Dateien formatieren
+npm run format:check      # Formatierung überprüfen
+
+# TypeScript
+npm run type-check        # TypeScript-Typen validieren
+
+# Komplett-Check
+npm run quality           # Alle Checks ausführen
+npm run quality:fix       # Alle Checks + automatische Fixes
+```
+
+### Pre-Commit Hooks (Husky)
+
+**Automatische Qualitätsprüfung vor Git-Commits:**
+
+```bash
+# .husky/pre-commit
+npx lint-staged    # Nur geänderte Dateien prüfen
+npm test          # Tests ausführen
+```
+
+**Lint-Staged Konfiguration:**
+
+```json
+{
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,css,scss,yaml,yml}": ["prettier --write"]
+  }
+}
+```
+
+**Funktionsweise:**
+
+1. **Git Commit erstellen** → Pre-commit Hook wird ausgelöst
+2. **Lint-Staged** → Nur geänderte Dateien werden geprüft
+3. **ESLint Fix** → Automatische Problembehebung
+4. **Prettier Format** → Code-Formatierung
+5. **Tests** → Vitest-Tests ausführen
+6. **Commit** → Nur bei erfolgreichen Checks
+
+### VS Code Integration
+
+**Optimale Entwicklererfahrung:**
+
+**.vscode/settings.json:**
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}
+```
+
+**Empfohlene Extensions:**
+
+- `esbenp.prettier-vscode` - Prettier Formatierung
+- `dbaeumer.vscode-eslint` - ESLint Integration
+- `bradlc.vscode-tailwindcss` - Tailwind CSS Support
+- `ms-vscode.vscode-typescript-next` - Enhanced TypeScript
+
+**Automatische Aktionen:**
+
+- ✅ **Format on Save** - Code wird beim Speichern formatiert
+- ✅ **ESLint Fix on Save** - Linting-Probleme automatisch behoben
+- ✅ **Import Organization** - Imports automatisch sortiert
+- ✅ **Type Checking** - Inline TypeScript-Fehler angezeigt
+
+### Quality Rules im Detail
+
+**React-spezifische Regeln:**
+
+```javascript
+// ✅ Guter Code
+export default function Component() {
+  return (
+    <div>
+      <img src="image.jpg" alt="Beschreibung" />
+      <button type="button" onClick={handleClick}>
+        Klick mich
+      </button>
+    </div>
+  );
+}
+
+// ❌ Problematischer Code
+export default function Component() {
+  return (
+    <div>
+      <img src="image.jpg" />  {/* Missing alt attribute */}
+      <button onClick={handleClick}>  {/* Missing type */}
+        Klick mich
+      </button>
+    </div>
+  );
+}
+```
+
+**TypeScript-spezifische Regeln:**
+
+```typescript
+// ✅ Guter Code
+import type { FC } from 'react';
+
+interface Props {
+  title: string;
+  count?: number;
+}
+
+const Component: FC<Props> = ({ title, count = 0 }) => {
+  return <h1>{title} ({count})</h1>;
+};
+
+// ❌ Problematischer Code
+import { FC } from 'react';  // Should use type import
+
+const Component = ({ title, count }) => {  // Missing type annotations
+  return <h1>{title} ({count})</h1>;
+};
+```
+
+**Import Organization:**
+
+```typescript
+// ✅ Automatisch organisierte Imports
+import { FC } from "react"; // External libraries
+import { useRouter } from "react-router"; // External libraries
+
+import { Button } from "../components/ui"; // Internal components
+import { formatDate } from "../utils"; // Internal utils
+
+import type { User } from "./types"; // Type imports (last)
+```
+
+### Error Reporting
+
+**ESLint-Fehler werden angezeigt als:**
+
+```bash
+Error: 'React' must be in scope when using JSX (react/react-in-jsx-scope)
+Warning: Unexpected console statement (no-console)
+Error: Missing "alt" attribute for img tag (jsx-a11y/alt-text)
+```
+
+**Prettier-Formatierung:**
+
+```bash
+Code style issues found in the following files:
+  src/components/Navigation.tsx
+  src/pages/Home.tsx
+
+Run `npm run format` to fix them.
+```
+
+### Accessibility (A11Y) Standards
+
+**Implementierte Accessibility-Regeln:**
+
+- ✅ **Alt-Texte** für alle Bilder
+- ✅ **ARIA-Labels** für interaktive Elemente
+- ✅ **Keyboard Navigation** Support
+- ✅ **Color Contrast** Validierung
+- ✅ **Semantic HTML** Enforcement
+- ✅ **Focus Management** für SPAs
+
+**Beispiel:**
+
+```jsx
+// ✅ Accessible Component
+<button
+  type="button"
+  aria-label="Navigation öffnen"
+  aria-expanded={isOpen}
+  onClick={toggleNav}
+>
+  <MenuIcon aria-hidden="true" />
+</button>
+
+// ❌ Non-accessible
+<div onClick={toggleNav}>  {/* Not keyboard accessible */}
+  <MenuIcon />
+</div>
+```
 
 ## CI/CD Pipeline
 
 Das Projekt verwendet GitHub Actions für automatisierte Tests und Continuous Integration.
 
-### Test Workflow
+### Quality Gate & Testing Pipeline
 
-Die CI-Pipeline führt bei jedem Push und Pull Request automatisch Tests aus.  
+Die CI-Pipeline führt bei jedem Push und Pull Request umfassende Qualitätsprüfungen aus.
 Konfiguration in `.github/workflows/test.yml`:
 
 ```yaml
-name: CI Test
+name: Quality Gate & Testing
 
 on:
   push:
@@ -264,33 +551,83 @@ on:
     branches: ["*"]
 
 jobs:
-  test:
+  quality-check:
     runs-on: ubuntu-latest
+    name: Code Quality & Testing
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
+
       - name: Install dependencies
         run: npm ci
-      - name: Run Vitest
-        run: npx vitest --run
+
+      - name: Type checking
+        run: npm run type-check
+
+      - name: ESLint check
+        run: npm run lint
+
+      - name: Prettier check
+        run: npm run format:check
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build check
+        run: npm run build
 ```
 
-**Funktionen:**
+**Quality Pipeline Features:**
 
-- Tests laufen auf allen Branches
-- Automatische Abhängigkeits-Installation
-- Vitest-Ausführung mit Ergebnissen
+- ✅ **Multi-Stage Validation** - 5 separate Qualitätsprüfungen
+- ✅ **TypeScript Checking** - Vollständige Typ-Validierung
+- ✅ **ESLint Analysis** - Code-Qualität und Best Practices
+- ✅ **Prettier Validation** - Konsistente Code-Formatierung
+- ✅ **Automated Testing** - Vitest Test-Suite
+- ✅ **Build Verification** - Production Build Test
+
+**Pipeline Stages:**
+
+1. **Dependencies** - npm ci für reproducible builds
+2. **Type Check** - TypeScript-Compiler ohne Emission
+3. **Linting** - ESLint-Regeln für alle JS/TS/JSX/TSX Dateien
+4. **Formatting** - Prettier Code-Style Validierung
+5. **Testing** - Vitest mit Coverage-Reporting
+6. **Build** - Production-Build Verification
+
+**Failure Handling:**
+
+- Bei Fehlern stoppt die Pipeline sofort
+- Detaillierte Error-Reports in GitHub Actions
+- Pull Requests können nur gemerged werden wenn alle Checks bestehen
+
+### Quality Reports
+
+Die Pipeline generiert detaillierte Reports:
+
+```bash
+✅ Type checking passed
+✅ ESLint: 0 errors, 0 warnings
+✅ Prettier: All files formatted correctly
+✅ Tests: 3 passed, 0 failed
+✅ Build: Production build successful
+```
 
 ### Ergebnisse anzeigen
 
-Die Test-Ergebnisse siehst du unter:
+Die Quality Gate Ergebnisse siehst du unter:
 
-- GitHub Repository → Tab "Actions"
-- Bei Pull Requests werden die Ergebnisse direkt angezeigt
+- GitHub Repository → Tab "Actions" → "Quality Gate & Testing"
+- Bei Pull Requests: Automatische Status-Checks
+- Detaillierte Logs für jeden Schritt verfügbar
+- Failure-Reports mit konkreten Fehlermeldungen
 
 ### GitHub Pages Deployment
 
@@ -299,7 +636,7 @@ Deploy erfolgt nur durch den main branch, daher müsst ihr warten, bis der Pull 
 
 **Deployment Workflow:**
 
-Die Anwendung wird automatisch bei Push auf den `main` Branch deployed.  
+Die Anwendung wird automatisch bei Push auf den `main` Branch deployed.
 Konfiguration in `.github/workflows/deploy.yml`:
 
 ```yaml
@@ -346,7 +683,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-**Live URL:**  
+**Live URL:**
 🚀 **https://dependency-injectors.github.io/WebDevKurs/**
 
 **Wichtige Konfigurationen für GitHub Pages:**
@@ -374,8 +711,8 @@ jobs:
    );
    ```
 
-> [!IMPORTANT] > **Wichtiger Hinweis für die lokale Entwicklung:**  
-> Da wir den `basename="/WebDevKurs"` setzen, ist das Projekt beim Entwickeln **nicht** direkt auf `http://localhost:5173/` zu finden, sondern auf:  
+> [!IMPORTANT] > **Wichtiger Hinweis für die lokale Entwicklung:**
+> Da wir den `basename="/WebDevKurs"` setzen, ist das Projekt beim Entwickeln **nicht** direkt auf `http://localhost:5173/` zu finden, sondern auf:
 > **🔗 http://localhost:5173/WebDevKurs**
 >
 > Merke dir diese URL für die lokale Entwicklung!
@@ -410,28 +747,24 @@ Das Projekt verfügt über ein automatisches Health Check System, das die Verfü
 
 ### Daily Health Check
 
-**Schedule:** Täglich um 09:00 MESZ (07:00 UTC)  
+**Schedule:** Täglich um 09:00 MESZ (07:00 UTC)
 **Workflow:** `.github/workflows/health-check.yml`
 
 **Was wird überwacht:**
 
 1. **Website Accessibility**
-
    - HTTP 200 Response Check
    - Server-Erreichbarkeit der Live-Site
 
 2. **Content Validation**
-
    - HTML-Struktur (`<title>`, React root element)
    - Asset-Referenzen (JS/CSS Bundles, Favicon)
 
 3. **Build Process**
-
    - Lokaler Build-Test mit aktuellen Dependencies
    - Build-Artefakte Validierung (`dist/` Ordner)
 
 4. **Testing**
-
    - Vitest Test-Suite Ausführung
    - Code-Qualität Validation
 
@@ -520,7 +853,6 @@ Repository → Actions Tab → "Daily Health Check" Workflow
 Du kannst den Health Check auch manuell triggern:
 
 1. **GitHub Web Interface:**
-
    - Repository → Actions → "Daily Health Check"
    - "Run workflow" Button → "Run workflow"
 
@@ -536,16 +868,16 @@ Du kannst den Health Check auch manuell triggern:
 ```json
 {
   "scripts": {
-    "test": "vitest --run",           // Einmalige Test-Ausführung
-    "test:watch": "vitest",           // Watch-Mode für Development
-    "test:ui": "vitest --ui"          // Visual Test Interface
+    "test": "vitest --run", // Einmalige Test-Ausführung
+    "test:watch": "vitest", // Watch-Mode für Development
+    "test:ui": "vitest --ui" // Visual Test Interface
   }
 }
-
 ```
+
 ## Projektstruktur
 
-````
+```
 
 WebDevKurs/
 ├── .github/
@@ -575,7 +907,7 @@ WebDevKurs/
 ├── ONBOARDING.md # Schritt-für-Schritt Anleitung für neue Studenten
 └── README.md # Hauptdokumentation
 
-````
+```
 
 ## Navigation Features
 
@@ -615,7 +947,7 @@ npm run dev
 
 # WICHTIG: Projekt läuft auf http://localhost:5173/WebDevKurs
 # (nicht auf localhost:5173/ wegen basename Konfiguration)
-````
+```
 
 ### 2. Feature entwickeln
 

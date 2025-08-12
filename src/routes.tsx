@@ -1,8 +1,9 @@
 import React from "react";
-import Home from "./pages/Home";
-import Sven from "./pages/Sven";
-import Pawel from "./pages/Pawel";
+
 import Help from "./pages/Help";
+import Home from "./pages/Home";
+import Pawel from "./pages/Pawel";
+import Sven from "./pages/Sven";
 
 export interface RouteConfig {
   path: string;
