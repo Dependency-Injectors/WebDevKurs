@@ -67,7 +67,7 @@ Integration erfolgte in 3 Schritten:
 Für die Navigation verwenden wir React-Router. Dies wurde bereits integriert.
 
 ```bash
-npm i react-router-dom
+npm i react-router
 ```
 
 Die Routen werden in der `App.jsx` definiert.
@@ -77,7 +77,7 @@ Die einzelnen Seiten liegen im Ordner `src/pages`.
 **Beispiel für die Routenstruktur in App.jsx:**
 
 ```jsx
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 
