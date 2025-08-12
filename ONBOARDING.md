@@ -50,6 +50,21 @@ npm --version      # Sollte eine Versionsnummer zeigen
    - Gehe zu `http://localhost:5173/WebDevKurs`
    - Du solltest die Startseite sehen
 
+   **🎉 Beim ersten Öffnen in VS Code:**
+
+   ```
+   💡 This workspace has extension recommendations.
+   Would you like to install the recommended extensions?
+
+   [Install All] ← Klicke hier!
+   ```
+
+   **Was passiert dann:**
+   - ✅ Prettier, ESLint und Tailwind Extensions werden installiert
+   - ✅ Automatische Code-Formatierung beim Speichern aktiviert
+   - ✅ Quality-Tools sind sofort einsatzbereit
+   - ✅ Keine weitere Konfiguration nötig!
+
 ## 🌿 Schritt 2: Eigenen Branch erstellen
 
 **Wichtig:** Arbeite IMMER in deinem eigenen Branch, niemals direkt im `main` Branch!
@@ -505,20 +520,40 @@ npm run quality:fix       # Alle Checks + automatische Fixes
 
 ### VS Code Setup für optimale Erfahrung
 
-**Installiere diese Extensions:**
+**🎉 Gute Nachrichten: Alles ist bereits vorkonfiguriert!**
 
-1. **Prettier - Code formatter** (`esbenp.prettier-vscode`)
-   - Automatische Code-Formatierung
-2. **ESLint** (`dbaeumer.vscode-eslint`)
-   - Zeigt Probleme direkt im Editor an
-3. **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`)
-   - Autocomplete für Tailwind-Klassen
+**Das Projekt enthält bereits:**
+
+- ✅ `.vscode/settings.json` - Optimale Editor-Einstellungen
+- ✅ `.vscode/tasks.json` - Vordefinierte Build- und Quality-Tasks
+- ✅ `.vscode/extensions.json` - Empfohlene Extensions
+
+**Bei erstem Öffnen des Projekts:**
+
+1. **VS Code fragt automatisch:**
+
+   ```
+   🔔 This workspace has extension recommendations.
+   Would you like to install the recommended extensions for this workspace?
+
+   [Install All] [Show Recommendations] [Ignore]
+   ```
+
+2. **Klicke "Install All" für:**
+   - **Prettier - Code formatter** (`esbenp.prettier-vscode`)
+   - **ESLint** (`dbaeumer.vscode-eslint`)
+   - **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`)
+   - **TypeScript Importer** (`pmneo.tsimporter`)
 
 **Nach Installation:**
 
 - ✅ Code wird beim Speichern automatisch formatiert
 - ✅ ESLint-Probleme werden unterstrichen angezeigt
 - ✅ Quick-Fixes verfügbar (Glühbirne-Symbol)
+- ✅ Tailwind-Klassen haben Autocomplete
+- ✅ Imports werden automatisch organisiert
+
+**Keine manuelle Konfiguration nötig!** 🚀
 
 ### Pre-Commit Hooks - Automatische Qualitätsprüfung
 
