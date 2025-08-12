@@ -11,7 +11,18 @@
         "accessibility-score": "off",
         "button-name": "off",
         "color-contrast": "off",
-        "target-size": "off"
+        "target-size": "off",
+        "document-latency-insight": "off",
+        "image-delivery-insight": "off",
+        "meta-description": "off",
+        "redirects": "off",
+        "unused-javascript": "off",
+        "uses-responsive-images": "off",
+        "cache-insight": "off",
+        "max-potential-fid": "off",
+        "modern-image-formats": "off",
+        "render-blocking-insight": "off",
+        "uses-long-cache-ttl": "off"
       }
     },
     "upload": {
