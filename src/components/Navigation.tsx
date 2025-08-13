@@ -3,10 +3,10 @@ import {
   ChevronRight,
   Home,
   Menu,
-  Users,
-  X,
   Moon,
   Sun,
+  Users,
+  X,
 } from "lucide-react";
 import { use, useEffect, useState } from "react";
 import { NavLink } from "react-router";
@@ -72,6 +72,7 @@ const Navigation = () => {
             <button
               onClick={() => setIsDesktopSidebarOpen(false)}
               className="p-1 text-gray-500 hover:text-gray-700 transition-colors"
+              aria-label="Sidebar schließen"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -125,6 +126,7 @@ const Navigation = () => {
           <button
             onClick={() => setIsDesktopSidebarOpen(true)}
             className="hidden md:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors rounded-md"
+            aria-label="Studenten-Sidebar öffnen"
           >
             <ChevronRight className="w-4 h-4" />
             Studenten ({studentRoutes.length})
@@ -155,12 +157,17 @@ const Navigation = () => {
         <button
           onClick={() => setIsMobileSidebarOpen(true)}
           className="md:hidden p-2 text-gray-700 hover:text-blue-400 transition-colors"
+          aria-label="Mobile Navigation öffnen"
         >
           <Menu className="w-6 h-6" />
         </button>
         <div className="md:block">
-          <button onClick={toggleTheme}>
-            {theme === "dark" ? <Moon /> : <Sun />}
+          <button aria-label="Theme wechseln" onClick={toggleTheme}>
+            {theme === "dark" ? (
+              <Moon aria-label="Hellen Modus aktivieren" />
+            ) : (
+              <Sun aria-label="Dunklen Modus aktivieren" />
+            )}
           </button>
         </div>
       </div>
@@ -188,6 +195,7 @@ const Navigation = () => {
               <button
                 onClick={() => setIsMobileSidebarOpen(false)}
                 className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+                aria-label="Mobile Sidebar schließen"
               >
                 <X className="w-5 h-5" />
               </button>

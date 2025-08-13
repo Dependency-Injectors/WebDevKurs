@@ -16,7 +16,7 @@ const students = [
     description: "Full-Stack und Dev-Ops Hoffnung",
     technologies: ["PERN-Stack", "TypeScript", "AWS", "Docker"],
     githubUrl: "https://github.com/33SLueck",
-    projectUrl: "#",
+    projectUrl: "https://sliot.de/",
     color: "bg-gradient-to-br from-teal-400 to-teal-800",
   },
   {
@@ -24,8 +24,8 @@ const students = [
     name: "Pawel Szoltysek",
     description: "WebDev Entwickler in Ausbildung",
     technologies: ["Javascript", "CSS", "React"],
-    githubUrl: "#",
-    projectUrl: "#",
+    githubUrl: null,
+    projectUrl: null,
     color: "bg-gradient-to-br from-white via-red-500 to-red-600",
   },
   {
@@ -33,8 +33,8 @@ const students = [
     name: "Sandra Simon-Schmitt",
     description: "Lehrerin trifft Tech",
     technologies: ["JavaScript", "CSS", "React"],
-    githubUrl: "#",
-    projectUrl: "#",
+    githubUrl: null,
+    projectUrl: null,
     color: "bg-gradient-to-br from-green-100 to-emerald-600",
   },
   {
@@ -42,8 +42,8 @@ const students = [
     name: "Leon Winde",
     description: "Fachinformatiker und WebDev auf höchstem Niveau",
     technologies: ["React", "Next.js", "PostgreSQL", "Docker", "Java"],
-    githubUrl: "#",
-    projectUrl: "#",
+    githubUrl: null,
+    projectUrl: null,
     color: "bg-gradient-to-br from-orange-100 to-blue-600",
   },
 ];
@@ -76,6 +76,7 @@ export default function StudentCarousel() {
       {/* Navigation Buttons */}
       <div className="flex justify-between items-center mb-6">
         <button
+          aria-label="Zurück"
           onClick={prevSlide}
           disabled={currentIndex === 0}
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -89,6 +90,7 @@ export default function StudentCarousel() {
             length: Math.ceil(students.length / itemsPerPage),
           }).map((_, index) => (
             <button
+              aria-label="pagination-indicator"
               key={index}
               className={`w-2 h-2 rounded-full transition-colors ${
                 Math.floor(currentIndex / itemsPerPage) === index
@@ -101,6 +103,7 @@ export default function StudentCarousel() {
         </div>
 
         <button
+          aria-label="Weiter"
           onClick={nextSlide}
           disabled={currentIndex + itemsPerPage >= students.length}
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -140,24 +143,30 @@ export default function StudentCarousel() {
               </div>
 
               <div className="flex gap-2">
-                <a
-                  href="https://github.com/33SLueck"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                >
-                  <GitHubIcon className="mr-2 h-3 w-3" />
-                  GitHub
-                </a>
-                <a
-                  href="https://sliot.de/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  <ExternalLink className="mr-2 h-3 w-3" />
-                  Projekt
-                </a>
+                {student.githubUrl && (
+                  <a
+                    href={student.githubUrl}
+                    aria-label={`GitHub-Profil von ${student.name}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                  >
+                    <GitHubIcon className="mr-2 h-3 w-3" />
+                    GitHub
+                  </a>
+                )}
+                {student.projectUrl && (
+                  <a
+                    href={student.projectUrl}
+                    aria-label={`GitHub-Project von ${student.name}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    <ExternalLink className="mr-2 h-3 w-3" />
+                    Projekt
+                  </a>
+                )}
               </div>
             </div>
           </div>
