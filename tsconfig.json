@@ -44,7 +44,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "include": ["src", "playwright.config.ts", "tests/**/*.ts"],
   "exclude": [
     "node_modules",
     "dist",
