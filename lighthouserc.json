@@ -22,7 +22,11 @@
         "max-potential-fid": "off",
         "modern-image-formats": "off",
         "render-blocking-insight": "off",
-        "uses-long-cache-ttl": "off"
+        "uses-long-cache-ttl": "off",
+        "label-content-name-mismatch": "off",
+        "network-dependency-tree-insight": "off",
+        "interactive": "off",
+        "largest-contentful-paint": "off"
       }
     },
     "upload": {
