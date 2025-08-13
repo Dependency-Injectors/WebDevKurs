@@ -36,10 +36,10 @@ jobs:
           REDIRECT_SCRIPT='<script>
           // https://github.com/rafgraph/spa-github-pages
           (function(l) {
-            if (l.search[1] === \"/\") {
-              var decoded = l.search.slice(1).split(\"&\").map(function(s) {
-                return s.replace(/~and~/g, \"&\")
-              }).join(\"?\");
+            if (l.search[1] === "/") {
+              var decoded = l.search.slice(1).split("&").map(function(s) {
+                return s.replace(/~and~/g, "&")
+              }).join("?");
               window.history.replaceState(null, null,
                 l.pathname.slice(0, -1) + decoded + l.hash
               );
@@ -47,7 +47,7 @@ jobs:
           }(window.location));
           </script>'
           # Füge das Skript vor </head> in 404.html ein
-          sed -i \"s|</head>|$REDIRECT_SCRIPT\\n</head>|\" dist/404.html
+          awk -v script="$REDIRECT_SCRIPT" '/<\/head>/ {print script} 1' dist/404.html > dist/404_tmp.html && mv dist/404_tmp.html dist/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
