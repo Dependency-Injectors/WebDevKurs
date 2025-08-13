@@ -35,11 +35,17 @@ const Home = () => {
               </p>
 
               <div className="flex flex-col gap-4 min-[400px]:flex-row">
-                <button className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors">
+                <button
+                  aria-label="Repository ansehen"
+                  className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                >
                   <GitHubIcon className="mr-2 h-5 w-5" />
                   Repository ansehen
                 </button>
-                <button className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-gray-900 bg-transparent border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                <button
+                  aria-label="teilnehmer entdecken"
+                  className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-gray-900 bg-transparent border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                >
                   <ArrowRight className="mr-2 h-5 w-5" />
                   Teilnehmer entdecken
                 </button>
@@ -183,11 +189,17 @@ const Home = () => {
                 den Code an, lerne von anderen und trage selbst bei!
               </p>
               <div className="flex flex-col gap-4 min-[400px]:flex-row">
-                <button className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-blue-600 bg-white rounded-md hover:bg-gray-100 transition-colors">
+                <button
+                  aria-label="Zum Repository"
+                  className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-blue-600 bg-white rounded-md hover:bg-gray-100 transition-colors"
+                >
                   <GitHubIcon className="mr-2 h-5 w-5" />
                   Zum Repository
                 </button>
-                <button className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-white bg-transparent border border-white rounded-md hover:bg-white hover:text-blue-600 transition-colors">
+                <button
+                  aria-label="Mitmachen"
+                  className="inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-white bg-transparent border border-white rounded-md hover:bg-white hover:text-blue-600 transition-colors"
+                >
                   <ExternalLink className="mr-2 h-5 w-5" />
                   Mitmachen
                 </button>
