@@ -31,6 +31,23 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Add SPA redirect script to 404.html
+        run: |
+          REDIRECT_SCRIPT='<script>
+          // https://github.com/rafgraph/spa-github-pages
+          (function(l) {
+            if (l.search[1] === \"/\") {
+              var decoded = l.search.slice(1).split(\"&\").map(function(s) {
+                return s.replace(/~and~/g, \"&\")
+              }).join(\"?\");
+              window.history.replaceState(null, null,
+                l.pathname.slice(0, -1) + decoded + l.hash
+              );
+            }
+          }(window.location));
+          </script>'
+          # Füge das Skript vor </head> in 404.html ein
+          sed -i \"s|</head>|$REDIRECT_SCRIPT\\n</head>|\" dist/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
